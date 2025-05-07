@@ -1,0 +1,7 @@
+<connection>
+    <server>localhost</server>
+    <port>3306</port>
+    <dataBase>foromundo</dataBase>
+    <user>root</user>
+    <password></password>
+</connection>

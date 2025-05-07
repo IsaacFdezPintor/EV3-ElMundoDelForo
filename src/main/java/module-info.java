@@ -16,5 +16,7 @@ module es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo {
 
     opens es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo to javafx.fxml;
     exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo;
-
+    exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.test;
+    exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO;
+    exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 }

@@ -11,14 +11,10 @@ module es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    // Database requirements
     requires java.sql;
     requires java.xml.bind;
 
     opens es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo to javafx.fxml;
     exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo;
 
-    // Open and export new packages
-    opens es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers to javafx.fxml;
-    exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 }

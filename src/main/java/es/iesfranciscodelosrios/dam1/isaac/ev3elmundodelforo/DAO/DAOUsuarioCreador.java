@@ -9,16 +9,19 @@ import java.util.List;
 
 public class DAOUsuarioCreador {
 
-    private final static String INSERT_USUARIO_CREADOR = "INSERT INTO usuarios (nombre, apellidos, email, password, fecha_registro, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?)";
-    private final static String UPDATE_USUARIO_CREADOR = "UPDATE usuarios SET nombre = ?, apellidos = ?, password = ? WHERE email = ?";
-    private final static String DELETE_USUARIO_CREADOR = "DELETE FROM usuarios WHERE email = ? AND tipo_usuario = 'CREADOR'";
-    private final static String FIND_BY_CORREO = "SELECT * FROM usuarios WHERE email = ? AND tipo_usuario = 'CREADOR'";
-    private final static String FIND_ALL = "SELECT * FROM usuarios WHERE tipo_usuario = 'CREADOR'";
-    private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM usuarios WHERE email = ? AND password = ? AND tipo_usuario = 'CREADOR'";
+    private final static String INSERT_USUARIO_CREADOR = "INSERT INTO creador (nombre, apellidos, email, password, fecha_registro, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?)";
+    private final static String UPDATE_USUARIO_CREADOR = "UPDATE creador SET nombre = ?, apellidos = ?, password = ? WHERE email = ?";
+    private final static String DELETE_USUARIO_CREADOR = "DELETE FROM creador WHERE email = ? AND tipo_usuario = 'CREADOR'";
+    private final static String FIND_BY_CORREO = "SELECT * FROM creador WHERE email = ? AND tipo_usuario = 'CREADOR'";
+    private final static String FIND_ALL = "SELECT * FROM creador WHERE tipo_usuario = 'CREADOR'";
+    private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM creador WHERE email = ? AND password = ? AND tipo_usuario = 'CREADOR'";
+    private final static String EXISTS_BY_EMAIL = "SELECT COUNT(*) FROM creador WHERE email = ?";
 
     public UsuarioCreador insert(UsuarioCreador usuario) throws SQLException {
         if ((usuario != null) && findByCorreo(usuario.getEmail()) == null) {
-            try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT_USUARIO_CREADOR)) {
+            Connection con = ConnectionBD.getConnection();
+
+            try (PreparedStatement pst = con.prepareStatement(INSERT_USUARIO_CREADOR)) {
                 pst.setString(1, usuario.getNombre());
                 pst.setString(2, usuario.getApellidos());
                 pst.setString(3, usuario.getEmail());
@@ -26,6 +29,18 @@ public class DAOUsuarioCreador {
                 pst.setDate(5, usuario.getFechaDeRegistro());
                 pst.setString(6, "CREADOR");
                 pst.executeUpdate();
+
+                ResultSet rs = pst.getGeneratedKeys();
+                int idUsuario = 0;
+                if (rs.next()) {
+                    idUsuario = rs.getInt(1); // El valor autoincremental generado
+                }
+                try (PreparedStatement pstCreador = con.prepareStatement(INSERT_USUARIO_CREADOR)) {
+                    pstCreador.setInt(1, idUsuario);  // Usamos el id_usuario generado
+                    pstCreador.setDate(2, usuario.getFechaDeRegistro());
+                    pstCreador.setString(3, "CREADOR");
+                    pstCreador.executeUpdate();
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -121,4 +136,20 @@ public class DAOUsuarioCreador {
             return false;
         }
     }
+    public boolean existsByEmail(String email) throws SQLException {
+        Connection con = ConnectionBD.getConnection();
+        try  {
+             PreparedStatement pst = con.prepareStatement(EXISTS_BY_EMAIL);
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
+

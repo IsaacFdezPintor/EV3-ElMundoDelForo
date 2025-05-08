@@ -11,29 +11,33 @@ import java.util.List;
 public class DAOUsuarioComun {
 
 
-    private final static String INSERT_USUARIO_COMUN = "INSERT INTO usuarios (nombre, apellidos, email, password, fecha_registro, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?)";
-    private final static String UPDATE_USUARIO_COMUN = "UPDATE usuarios SET nombre = ?, apellidos = ?, password = ? WHERE email = ?";
-    private final static String DELETE_USUARIO_COMUN = "DELETE FROM usuarios WHERE email = ? AND tipo_usuario = 'COMUN'";
-    private final static String FIND_BY_CORREO = "SELECT * FROM usuarios WHERE email = ? AND tipo_usuario = 'COMUN'";
-    private final static String FIND_ALL = "SELECT * FROM usuarios WHERE tipo_usuario = 'COMUN'";
-    private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM usuarios WHERE email = ? AND password = ? AND tipo_usuario = 'COMUN'";
+    private final static String INSERT_USUARIO_COMUN = "INSERT INTO comun (nombre, apellidos, email, password, fecha_registro, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?)";
+    private final static String UPDATE_USUARIO_COMUN = "UPDATE comun SET nombre = ?, apellidos = ?, password = ? WHERE email = ?";
+    private final static String DELETE_USUARIO_COMUN = "DELETE FROM comun WHERE email = ? AND tipo_usuario = 'COMUN'";
+    private final static String FIND_BY_CORREO = "SELECT * FROM comun WHERE email = ? AND tipo_usuario = 'COMUN'";
+    private final static String FIND_ALL = "SELECT * FROM comun WHERE tipo_usuario = 'COMUN'";
+    private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM comun WHERE email = ? AND password = ? AND tipo_usuario = 'COMUN'";
+    private final static String EXISTS_BY_EMAIL = "SELECT COUNT(*) FROM comun WHERE email = ? AND tipo_usuario = 'COMUN'";
+
 
     public UsuarioComun insert(UsuarioComun usuario) throws SQLException {
-    if ((usuario!=null)&&findByCorreo(usuario.getEmail())==null){
-        try (PreparedStatement pst =  ConnectionBD.getConnection().prepareStatement(INSERT_USUARIO_COMUN)) {
-            pst.setString(1, usuario.getNombre());
-            pst.setString(2, usuario.getApellidos());
-            pst.setString(3, usuario.getEmail());
-            pst.setString(4, usuario.getPassword());
-            pst.setDate(5, usuario.getFechaDeRegistro());
-            pst.setString(6, "COMUN");
-        } catch (SQLException e){
-            throw  new RuntimeException(e);
+        if (usuario != null && !existsByEmail(usuario.getEmail())) {
+            try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT_USUARIO_COMUN)) {
+                pst.setString(1, usuario.getNombre());
+                pst.setString(2, usuario.getApellidos());
+                pst.setString(3, usuario.getEmail().trim());
+                pst.setString(4, usuario.getPassword());
+                pst.setDate(5, usuario.getFechaDeRegistro());
+                pst.setString(6, "COMUN");
+                pst.executeUpdate();
+            } catch (SQLException e){
+                throw new RuntimeException(e);
+            }
         }
-    }
         return usuario;
     }
-    
+
+
 
     public boolean update(UsuarioComun usuarioNuevo ,UsuarioComun usuarioActual) throws SQLException {
         boolean result = false;
@@ -117,7 +121,7 @@ public class DAOUsuarioComun {
 
     public boolean verificarCredenciales(String email, String password) throws SQLException {
 
-        try (Connection con = ConnectionBD.getConnection();) {
+        try (Connection con = ConnectionBD.getConnection()) {
             PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_EMAIL_BY_PASSWORD);
             pst.setString(1, email);
             pst.setString(2, password);
@@ -129,4 +133,17 @@ public class DAOUsuarioComun {
             return false;
         }
     }
+    public boolean existsByEmail(String email) throws SQLException {
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(EXISTS_BY_EMAIL)) {
+            pst.setString(1, email.trim());
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

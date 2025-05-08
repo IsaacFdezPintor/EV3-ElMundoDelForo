@@ -1,6 +1,7 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class UsuarioComun extends Usuario{
@@ -25,7 +26,7 @@ public class UsuarioComun extends Usuario{
     @Override
     public String toString() {
         return "UsuarioComun{" +
-                "Contenido=" + Contenido +
+                "Contenido=" + getNombre() +
                 '}';
     }
 }

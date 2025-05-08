@@ -1,6 +1,7 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public  abstract class Usuario {
 

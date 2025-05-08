@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="registerPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.LoginControllers">
+
+    <Text fill="#333333" layoutX="160.0" layoutY="54.0" text="Registro de Usuario" textAlignment="CENTER" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="159.09765625">
+        <font>
+            <Font name="Cooper Black" size="28.0" />
+        </font>
+    </Text>
+
+    <!-- Selección de tipo de usuario -->
+    <HBox alignment="CENTER" layoutY="80" spacing="20" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+        <children>
+            <Label text="Tipo de usuario:" />
+
+            <!-- RadioButton Creador -->
+            <RadioButton fx:id="radioCreador" text="Creador" />
+
+            <!-- RadioButton Común -->
+            <RadioButton fx:id="radioComun" text="Común" />
+        </children>
+    </HBox>
+
+    <TextField fx:id="nombreField" layoutY="130" prefHeight="30" promptText="Nombre completo" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <TextField fx:id="apellidoField" layoutX="100.0" layoutY="169.0" prefHeight="30" promptText="Apellido" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <TextField fx:id="emailField" layoutX="100.0" layoutY="210.0" prefHeight="30" promptText="Correo electrónico" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <PasswordField fx:id="passwordField" layoutX="100.0" layoutY="252.0" prefHeight="30" promptText="Contraseña" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <PasswordField fx:id="confirmarPasswordField" layoutX="100.0" layoutY="290.0" prefHeight="30" promptText="Confirmar contraseña" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <Button fx:id="botonRegistrar" layoutY="340" onAction="#onRegistrarUsuario" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Registrar" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <Label fx:id="mensajeLabel" layoutX="120.0" layoutY="396.0" prefHeight="17.0" prefWidth="368.0" style="-fx-text-fill: red;" text="" />
+
+</AnchorPane>

@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOUsuarioCreador {
+public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
 
     private final static String INSERT_USUARIO_CREADOR = "INSERT INTO creador (nombre, apellidos, email, password, fecha_registro, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?)";
     private final static String UPDATE_USUARIO_CREADOR = "UPDATE creador SET nombre = ?, apellidos = ?, password = ? WHERE email = ?";
@@ -16,7 +16,10 @@ public class DAOUsuarioCreador {
     private final static String FIND_ALL = "SELECT * FROM creador WHERE tipo_usuario = 'CREADOR'";
     private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM creador WHERE email = ? AND password = ? AND tipo_usuario = 'CREADOR'";
     private final static String EXISTS_BY_EMAIL = "SELECT COUNT(*) FROM creador WHERE email = ?";
+    private final static String FIND_BY_TITULO = "SELECT * FROM creador WHERE titulo LIKE ?";
 
+
+    @Override
     public UsuarioCreador insert(UsuarioCreador usuario) throws SQLException {
         if ((usuario != null) && findByCorreo(usuario.getEmail()) == null) {
             Connection con = ConnectionBD.getConnection();
@@ -30,24 +33,13 @@ public class DAOUsuarioCreador {
                 pst.setString(6, "CREADOR");
                 pst.executeUpdate();
 
-                ResultSet rs = pst.getGeneratedKeys();
-                int idUsuario = 0;
-                if (rs.next()) {
-                    idUsuario = rs.getInt(1); // El valor autoincremental generado
-                }
-                try (PreparedStatement pstCreador = con.prepareStatement(INSERT_USUARIO_CREADOR)) {
-                    pstCreador.setInt(1, idUsuario);  // Usamos el id_usuario generado
-                    pstCreador.setDate(2, usuario.getFechaDeRegistro());
-                    pstCreador.setString(3, "CREADOR");
-                    pstCreador.executeUpdate();
-                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
         return usuario;
     }
-
+    @Override
     public boolean update(UsuarioCreador usuarioNuevo, UsuarioCreador usuarioActual) throws SQLException {
         boolean result = false;
         if ((usuarioNuevo != null) && (usuarioActual != null) && findByCorreo(usuarioActual.getEmail()) != null) {
@@ -64,7 +56,7 @@ public class DAOUsuarioCreador {
         }
         return result;
     }
-
+    @Override
     public boolean delete(UsuarioCreador usuario) throws SQLException {
         boolean deleted = false;
         if ((usuario != null) && findByCorreo(usuario.getEmail()) != null) {
@@ -78,7 +70,7 @@ public class DAOUsuarioCreador {
         }
         return deleted;
     }
-
+    @Override
     public UsuarioCreador findByCorreo(String email) throws SQLException {
         UsuarioCreador usuario = null;
 
@@ -100,7 +92,7 @@ public class DAOUsuarioCreador {
 
         return usuario;
     }
-
+    @Override
     public List<UsuarioCreador> findAll() throws SQLException {
         List<UsuarioCreador> usuarios = new ArrayList<>();
         Connection con = ConnectionBD.getConnection();
@@ -122,8 +114,8 @@ public class DAOUsuarioCreador {
         }
         return usuarios;
     }
-
-    public boolean verificarCredenciales(String email, String password) throws SQLException {
+    @Override
+    public boolean check(String email, String password) throws SQLException {
         try (Connection con = ConnectionBD.getConnection()) {
             PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_EMAIL_BY_PASSWORD);
             pst.setString(1, email);
@@ -136,6 +128,7 @@ public class DAOUsuarioCreador {
             return false;
         }
     }
+    @Override
     public boolean existsByEmail(String email) throws SQLException {
         Connection con = ConnectionBD.getConnection();
         try  {

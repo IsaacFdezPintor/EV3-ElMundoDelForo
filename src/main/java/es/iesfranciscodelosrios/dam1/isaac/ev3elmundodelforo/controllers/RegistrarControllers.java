@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import java.sql.Date;
 import java.time.LocalDate;
 
-public class LoginControllers {
+public class RegistrarControllers {
 
     @FXML
     private RadioButton radioCreador;

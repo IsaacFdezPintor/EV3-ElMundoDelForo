@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DAOUsuarioComun {
+public class DAOUsuarioComun implements IGenericDAO<UsuarioComun> {
 
 
     private final static String INSERT_USUARIO_COMUN = "INSERT INTO comun (nombre, apellidos, email, password, fecha_registro, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?)";
@@ -19,7 +19,7 @@ public class DAOUsuarioComun {
     private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM comun WHERE email = ? AND password = ? AND tipo_usuario = 'COMUN'";
     private final static String EXISTS_BY_EMAIL = "SELECT COUNT(*) FROM comun WHERE email = ? AND tipo_usuario = 'COMUN'";
 
-
+    @Override
     public UsuarioComun insert(UsuarioComun usuario) throws SQLException {
         if (usuario != null && !existsByEmail(usuario.getEmail())) {
             try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT_USUARIO_COMUN)) {
@@ -38,7 +38,7 @@ public class DAOUsuarioComun {
     }
 
 
-
+    @Override
     public boolean update(UsuarioComun usuarioNuevo ,UsuarioComun usuarioActual) throws SQLException {
         boolean result = false;
         if ((usuarioNuevo != null) && (usuarioActual != null) && findByCorreo(usuarioActual.getEmail()) != null) {
@@ -54,7 +54,7 @@ public class DAOUsuarioComun {
         }
         return result;
     }
-
+    @Override
     public boolean delete (UsuarioComun usuario) throws SQLException {
         boolean deleted = false;
             if ((usuario!=null)&&findByCorreo(usuario.getEmail())==null){
@@ -69,7 +69,7 @@ public class DAOUsuarioComun {
         return deleted;
     }
     
-
+    @Override
     public UsuarioComun findByCorreo(String email) throws SQLException {
 
         UsuarioComun usuario = null;
@@ -93,7 +93,7 @@ public class DAOUsuarioComun {
         return usuario;
     }
     
-
+    @Override
     public List<UsuarioComun> findAll() throws SQLException {
         List<UsuarioComun> usuarios = new ArrayList<>();
         Connection con = ConnectionBD.getConnection();
@@ -118,8 +118,8 @@ public class DAOUsuarioComun {
         }
 
     
-
-    public boolean verificarCredenciales(String email, String password) throws SQLException {
+    @Override
+    public boolean check(String email, String password) throws SQLException {
 
         try (Connection con = ConnectionBD.getConnection()) {
             PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_EMAIL_BY_PASSWORD);
@@ -133,6 +133,7 @@ public class DAOUsuarioComun {
             return false;
         }
     }
+    @Override
     public boolean existsByEmail(String email) throws SQLException {
         try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(EXISTS_BY_EMAIL)) {
             pst.setString(1, email.trim());

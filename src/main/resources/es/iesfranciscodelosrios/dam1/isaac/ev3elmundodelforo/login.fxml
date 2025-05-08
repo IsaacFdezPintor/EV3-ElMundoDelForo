@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="loginPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.LoginController">
+
+    <!-- Título personalizado -->
+    <Text fill="#333333" layoutX="143.0" layoutY="80.0" text="El mundo de los Foros" textAlignment="CENTER" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="143.140625">
+        <font>
+            <Font name="Cooper Black" size="32.0" />
+        </font>
+    </Text>
+
+    <!-- Campo usuario -->
+    <TextField fx:id="textEmail" layoutY="120" prefHeight="30" promptText="Correo electrónico" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <!-- Campo contraseña -->
+    <PasswordField fx:id="textPassword" layoutY="170" prefHeight="30" promptText="Contraseña" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <!-- Botón Iniciar sesión -->
+    <Button fx:id="login" layoutY="220" onAction="#onLogin" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Iniciar sesión" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <!-- Botón Registrar -->
+    <Button fx:id="registrar" layoutY="280"  prefHeight="35" style="-fx-background-color: #008CBA; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Registrar" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0"  onAction="#setRegistrar"/>
+   <Label fx:id="errorMensaje" layoutX="232.0" layoutY="337.0" prefHeight="17.0" prefWidth="183.0" />
+
+</AnchorPane>

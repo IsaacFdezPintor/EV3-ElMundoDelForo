@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane fx:id="userInfoPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.InfoController">
+
+    <!-- Título personalizado -->
+    <Text fill="#333333" layoutX="143.0" layoutY="80.0" text="Información de Usuario" textAlignment="CENTER" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="143.140625">
+        <font>
+            <Font name="Cooper Black" size="32.0" />
+        </font>
+    </Text>
+
+    <!-- Campo Nombre -->
+    <TextField fx:id="textNombre" layoutY="120" prefHeight="30" promptText="Nombre" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <!-- Campo Apellido -->
+    <TextField fx:id="textApellido" layoutY="170" prefHeight="30" promptText="Apellido" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <!-- Campo Email -->
+    <TextField fx:id="textEmail" layoutY="220" prefHeight="30" promptText="Correo electrónico" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <!-- Campo ID de Usuario -->
+    <TextField fx:id="textIdUsuario" layoutY="270" prefHeight="30" promptText="ID de Usuario" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <!-- Campo Tipo de Usuario -->
+    <ComboBox fx:id="comboTipoUsuario" layoutY="320" prefHeight="30" promptText="Tipo de Usuario" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Administrador" />
+                <String fx:value="Usuario Regular" />
+                <String fx:value="Invitado" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <!-- Botón Actualizar Información -->
+    <Button fx:id="actualizar" layoutY="370" onAction= prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Actualizar Información" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+
+    <!-- Etiqueta de mensaje de error o éxito -->
+    <Label fx:id="mensajeInfo" layoutX="232.0" layoutY="410.0" prefHeight="17.0" prefWidth="183.0" />
+
+</AnchorPane>

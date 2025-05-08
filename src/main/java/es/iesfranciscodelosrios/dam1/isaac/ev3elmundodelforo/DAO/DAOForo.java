@@ -1,6 +1,7 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.baseDatos.ConnectionBD;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.baseDatos.ConnectionProperties;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 
@@ -10,11 +11,11 @@ import java.util.List;
 
 public class DAOForo {
 
-    private final static String INSERT_FORO = "INSERT INTO foros (titulo, descripcion, fecha_creacion, id_creador) VALUES (?, ?, ?, ?)";
-    private final static String UPDATE_FORO = "UPDATE foros SET titulo = ?, descripcion = ? WHERE id_foro = ? AND id_creador = ?";
-    private final static String DELETE_FORO = "DELETE FROM foros WHERE id_foro = ? AND id_creador = ?";
-    private final static String FIND_BY_ID = "SELECT * FROM foros WHERE id_foro = ?";
-    private final static String FIND_ALL = "SELECT * FROM foros";
+    private final static String INSERT_FORO = "INSERT INTO foro (titulo, descripcion, fecha_creacion, id_creador) VALUES (?, ?, ?, ?)";
+    private final static String UPDATE_FORO = "UPDATE foro SET titulo = ?, descripcion = ? WHERE id_foro = ? AND id_creador = ?";
+    private final static String DELETE_FORO = "DELETE FROM foro WHERE id_foro = ? AND id_creador = ?";
+    private final static String FIND_BY_ID = "SELECT * FROM foro WHERE id_foro = ?";
+    private final static String FIND_ALL = "SELECT * FROM foro";
 
     public Foro insert(Foro foro, UsuarioCreador creador) throws SQLException {
         if (foro != null && creador != null) {

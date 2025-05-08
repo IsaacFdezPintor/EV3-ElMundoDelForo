@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="450.0" prefWidth="600.0"
+            style="-fx-background-color: #f4f7f6;"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ForoControllerComun">
+
+    <!-- Título -->
+    <Text fill="#333333" layoutX="174.0" layoutY="36.0" text="Foros y Comentarios" textAlignment="CENTER">
+        <font>
+            <Font name="Cooper Black" size="24.0" />
+        </font>
+    </Text>
+
+    <!-- Panel principal -->
+    <HBox layoutY="60.0" spacing="20.0"
+          AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
+          AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
+        <children>
+            <!-- Lista de Foros -->
+            <VBox prefWidth="200.0" spacing="10.0">
+                <children>
+                    <Label style="-fx-font-weight: bold;" text="Lista de Foros" />
+                    <ListView fx:id="listaForos" prefHeight="330.0" />
+                </children>
+            </VBox>
+
+            <!-- Comentarios, información del foro y campo de entrada -->
+            <VBox spacing="10.0" VBox.vgrow="ALWAYS" prefWidth="380.0">
+                <children>
+                    <Label style="-fx-font-weight: bold;" text="Comentarios" />
+                    <ListView fx:id="listaComentarios" prefHeight="200.0" />
+
+                    <!-- Información del foro -->
+                    <VBox spacing="5.0" style="-fx-background-color: #e0e0e0; -fx-padding: 10; -fx-background-radius: 5;">
+                        <children>
+                            <Label style="-fx-font-weight: bold;" text="Información del Foro" />
+                            <Label fx:id="labelDescripcionForo" text="Descripción: " wrapText="true" />
+                            <Label fx:id="labelCreadorForo" text="Creador: " />
+                        </children>
+                    </VBox>
+
+                    <!-- Campo de escritura de comentario -->
+                    <TextArea fx:id="campoComentario"
+                              promptText="Escribe tu comentario aquí..."
+                              prefHeight="60.0"
+                              wrapText="true"
+                              style="-fx-font-size: 12px;" />
+
+                    <!-- Botón publicar -->
+                    <Button fx:id="btnPublicarComentario"
+                            text="Publicar"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-background-radius: 5px;"
+                            alignment="CENTER_RIGHT"
+                            prefWidth="100.0" />
+                </children>
+            </VBox>
+        </children>
+    </HBox>
+</AnchorPane>

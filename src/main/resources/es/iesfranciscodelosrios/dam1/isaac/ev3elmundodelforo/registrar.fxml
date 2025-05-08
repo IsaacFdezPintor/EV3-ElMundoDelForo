@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="registerPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.LoginControllers">
+<AnchorPane fx:id="registerPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.RegistrarControllers">
 
     <Text fill="#333333" layoutX="160.0" layoutY="54.0" text="Registro de Usuario" textAlignment="CENTER" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="159.09765625">
         <font>

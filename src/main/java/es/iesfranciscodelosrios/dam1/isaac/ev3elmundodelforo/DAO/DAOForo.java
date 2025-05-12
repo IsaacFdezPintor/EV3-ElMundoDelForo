@@ -3,6 +3,7 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.baseDatos.ConnectionBD;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.baseDatos.ConnectionProperties;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 
 import java.sql.*;
@@ -23,7 +24,7 @@ public class DAOForo {
                     "WHERE f.titulo = ?";
     ;
 
-    public Foro insert(Foro foro, UsuarioCreador creador) throws SQLException {
+    public Foro insert(Foro foro, Usuario creador) throws SQLException {
         if (foro != null && creador != null) {
             try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT_FORO, Statement.RETURN_GENERATED_KEYS)) {
                 pst.setString(1, foro.getTitulo());
@@ -57,12 +58,12 @@ public class DAOForo {
         return actualizado;
     }
 
-    public boolean delete(int idForo, UsuarioCreador creador) throws SQLException {
+    public boolean delete(Foro foro) throws SQLException {
         boolean eliminado = false;
-        if (creador != null) {
+        if (foro != null) {
             try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(DELETE_FORO)) {
-                pst.setInt(1, idForo);
-                pst.setInt(2, creador.getId_Usuario());
+                pst.setInt(1, foro.getId_foro());
+                pst.setInt(2, foro.getId_creador());
 
                 eliminado = pst.executeUpdate() > 0;
             }

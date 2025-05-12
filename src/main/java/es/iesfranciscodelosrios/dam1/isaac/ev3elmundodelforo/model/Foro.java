@@ -1,13 +1,14 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Foro {
 
     private int id_foro;
     private String titulo;
     private String descripcion;
-    private Date fecha_creacion;
+    private Date fecha_creacion = Date.valueOf(LocalDate.now());
     private int id_creador;
 
     public Foro(String titulo, String descripcion, Date fecha_creacion, int id_creador) {

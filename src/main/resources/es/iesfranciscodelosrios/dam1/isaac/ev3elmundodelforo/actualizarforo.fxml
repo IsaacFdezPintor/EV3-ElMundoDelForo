@@ -6,7 +6,7 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<AnchorPane fx:id="actualizarForoPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="actualizarForoPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ActulizarForoController">
 
     <Text fill="#333333" layoutX="180.0" layoutY="54.0" text="Actualizar Foro" textAlignment="CENTER">
         <font>
@@ -15,19 +15,13 @@
     </Text>
 
     <!-- ComboBox para seleccionar el foro a actualizar -->
-    <ComboBox fx:id="foroComboBox" layoutY="110" prefHeight="30" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Foro 1" />
-                <String fx:value="Foro 2" />
-                <String fx:value="Foro 3" />
-                <!-- Añade más foros aquí si es necesario -->
-            </FXCollections>
-        </items>
-    </ComboBox>
+    <ComboBox fx:id="listaForos" layoutY="110" prefHeight="30" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
+
+    <!-- Campo de texto para escribir el nombre del foro -->
+    <TextField fx:id="nombreForoField" layoutY="160" prefHeight="30" promptText="Nombre del foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
 
     <!-- TextArea para actualizar la descripción del foro -->
-    <TextArea fx:id="descripcionField" layoutY="160" prefHeight="100" promptText="Nueva descripción del foro" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <TextArea fx:id="descripcionField" layoutY="210" prefHeight="100" promptText="Nueva descripción del foro" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
 
     <!-- Botón para guardar los cambios en el foro -->
     <Button fx:id="btnActualizarForo" layoutY="330" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Actualizar Foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />

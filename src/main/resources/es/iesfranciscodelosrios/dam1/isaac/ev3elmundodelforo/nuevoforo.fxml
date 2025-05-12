@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="crearForoPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane fx:id="crearForoPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.CrearForoController">
 
     <Text fill="#333333" layoutX="180.0" layoutY="54.0" text="Crear Nuevo Foro" textAlignment="CENTER">
         <font>
@@ -16,7 +16,7 @@
 
     <TextArea fx:id="descripcionField" layoutY="160" prefHeight="100" promptText="Descripción del foro" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
 
-    <Button fx:id="btnCrearForo" layoutY="330"  prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Crear Foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <Button fx:id="btnCrearForo"  onAction="#crearForo" layoutY="330"  prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Crear Foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
 
     <Label fx:id="mensajeLabel" layoutX="120.0" layoutY="390.0" prefHeight="17.0" prefWidth="368.0" style="-fx-text-fill: red;" text="" />
 

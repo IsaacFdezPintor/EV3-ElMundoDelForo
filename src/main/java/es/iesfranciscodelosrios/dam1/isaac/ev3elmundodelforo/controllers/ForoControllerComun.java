@@ -4,6 +4,7 @@ import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOForo;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.HelloApplication;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,6 +31,11 @@ public class ForoControllerComun {
 
     @FXML
     private Button btnMiInformacion;
+
+    @FXML
+    private Button btnCerrarSesion;
+
+
 
     public void initialize() throws SQLException {
         listaForos.setCellFactory(lv -> new ListCell<Foro>() {
@@ -86,5 +92,18 @@ public class ForoControllerComun {
         stage.setTitle("Mi Información");
         stage.setResizable(false);
         stage.show();
+    }
+    @FXML
+    public void cerrarSesion (ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Login");
+        stage.setResizable(false);
+        stage.show();
+        SesionUsuario.cerrarSesion();
+        Stage currentStage = (Stage) btnCerrarSesion.getScene().getWindow();
+        currentStage.close();
     }
 }

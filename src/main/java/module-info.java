@@ -21,4 +21,5 @@ module es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo {
     exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers to javafx.fxml;
     exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO;
     exports es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
+
 }

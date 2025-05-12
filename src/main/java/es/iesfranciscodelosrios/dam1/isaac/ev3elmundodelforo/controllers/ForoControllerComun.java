@@ -2,13 +2,18 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOForo;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.HelloApplication;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -23,8 +28,10 @@ public class ForoControllerComun {
     @FXML
     private Label labelCreadorForo;
 
+    @FXML
+    private Button btnMiInformacion;
+
     public void initialize() throws SQLException {
-        // Establecer cómo mostrar los foros en la lista
         listaForos.setCellFactory(lv -> new ListCell<Foro>() {
             @Override
             protected void updateItem(Foro item, boolean empty) {
@@ -32,15 +39,15 @@ public class ForoControllerComun {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getTitulo());  // Mostrar solo el título del foro en la lista
+                    setText(item.getTitulo());
                 }
             }
         });
 
         DAOForo daoForo = new DAOForo();
         DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
-        List<Foro> foros = daoForo.findAll();  // Obtener todos los foros
-        listaForos.getItems().setAll(foros);   // Rellenar la lista con los foros
+        List<Foro> foros = daoForo.findAll();
+        listaForos.getItems().setAll(foros);
 
         if (!foros.isEmpty()) {
             Foro primerForo = foros.get(0);
@@ -64,6 +71,20 @@ public class ForoControllerComun {
                 labelDescripcionForo.setText("Descripción: ");
                 labelCreadorForo.setText("Creador: ");
             }
+
+
         });
+
+
+    }
+    @FXML
+    public void miInformacion (ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("miInformacion.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Mi Información");
+        stage.setResizable(false);
+        stage.show();
     }
 }

@@ -120,8 +120,8 @@ public class DAOUsuarioComun implements IGenericDAO<UsuarioComun> {
     
     @Override
     public boolean check(String email, String password) throws SQLException {
-
-        try (Connection con = ConnectionBD.getConnection()) {
+    Connection con = ConnectionBD.getConnection();
+        try {
             PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_EMAIL_BY_PASSWORD);
             pst.setString(1, email);
             pst.setString(2, password);

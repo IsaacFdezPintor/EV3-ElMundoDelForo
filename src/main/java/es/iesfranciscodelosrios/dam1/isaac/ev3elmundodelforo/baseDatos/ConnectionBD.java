@@ -39,8 +39,13 @@ public class ConnectionBD {
      * @return La conexión a la base de datos. Si no se puede establecer la conexión, retorna null.
      */
     public static Connection getConnection() {
-        if (_instance == null) {
-            _instance = new ConnectionBD();
+        try {
+            if (_instance == null || con == null || con.isClosed()) {
+                _instance = new ConnectionBD();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
         return con;
     }

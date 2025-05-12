@@ -1,6 +1,10 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo;
 
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOForo;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioComun;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioComun;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 
 import java.sql.Date;
@@ -8,9 +12,19 @@ import java.sql.SQLException;
 
 public class UsuarioTest {
     public static void main(String[] args) throws SQLException {
-        UsuarioCreador usuarioCreador = new UsuarioCreador("Isaac", "Gonzalez", "isaac@gmail.com", "1234", Date.valueOf("2023-10-01"));
-        DAOUsuarioCreador usuarioCreadorDAO = new DAOUsuarioCreador();
-       usuarioCreadorDAO.insert(usuarioCreador);
+        //UsuarioCreador usuarioCreador = new UsuarioCreador("Isaac", "Gonzalez", "isaac@gmail.com", "1234", Date.valueOf("2023-10-01"));
+       // DAOUsuarioCreador usuarioCreadorDAO = new DAOUsuarioCreador();
+        UsuarioComun usuarioComun = new UsuarioComun("Luis", "Gonzalez", "luis@gmail.com", "1234", Date.valueOf("2023-10-01"));
+        DAOUsuarioComun usuarioComunDAO = new DAOUsuarioComun();
+        usuarioComunDAO.insert(usuarioComun);
+        System.out.println(usuarioComunDAO.check(usuarioComun.getEmail(), usuarioComun.getPassword()));
+        //DAOForo foroDAO = new DAOForo();
+       //usuarioCreadorDAO.insert(usuarioCreador);
+        /*Foro foro = new Foro("Titulo", "Descripcion", Date.valueOf("2023-10-01"),3);
+        foroDAO.insert(foro, usuarioCreador);
+        System.out.println(usuarioCreadorDAO.check(usuarioCreador.getEmail(),usuarioCreador.getPassword()));
+
+        System.out.println(foroDAO.findCreador(foro).getNombre());*/
     }
 
 }

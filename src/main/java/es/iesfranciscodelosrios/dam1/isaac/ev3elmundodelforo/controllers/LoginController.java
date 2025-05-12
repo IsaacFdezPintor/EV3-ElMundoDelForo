@@ -2,6 +2,9 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioComun;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.HelloApplication;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioComun;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,7 +44,7 @@ public class LoginController {
 
     @FXML
     private void onLogin() {
-        String email = textEmail.getText().trim();
+        String email = textEmail.getText();
         String password = textPassword.getText().trim();
         DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
         DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
@@ -50,11 +53,45 @@ public class LoginController {
             errorMensaje.setText("Ambos campos son obligatorios.");
         } else {
             try {
-
                 if (daoUsuarioCreador.check(email, password)) {
-                    errorMensaje.setText("Iniciando sesion... con Ususario Creador");
-                } if (daoUsuarioComun.check(email, password)) {
-                    errorMensaje.setText("Credenciales incorrectas con Usuario Comun");
+                    UsuarioCreador usuarioCreador = daoUsuarioCreador.findByCorreo(email);
+                    SesionUsuario.setUsuario(usuarioCreador);
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("forocreador.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load());
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.setTitle("Mundo del Foro - Creador");
+                        stage.show();
+
+                        // Cerrar la ventana de login
+                        Stage loginStage = (Stage) textEmail.getScene().getWindow();
+                        loginStage.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        errorMensaje.setText("Error al cargar la vista.");
+                    }
+
+                } else if (daoUsuarioComun.check(email, password)) {
+                    UsuarioComun usuarioComun = daoUsuarioComun.findByCorreo(email);
+                    SesionUsuario.setUsuario(usuarioComun);
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("forocomun.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load());
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.setTitle("Mundo del Foro - Usuario");
+                        stage.show();
+
+                        // Cerrar la ventana de login
+                        Stage loginStage = (Stage) textEmail.getScene().getWindow();
+                        loginStage.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        errorMensaje.setText("Error al cargar la vista.");
+                    }
                 } else {
                     errorMensaje.setText("Credenciales incorrectas.");
                 }
@@ -66,18 +103,14 @@ public class LoginController {
     }
 
     @FXML
-    private void setRegistrar(ActionEvent event) throws IOException {
-        // Cargar la vista del formulario de registro
-        AnchorPane registrarLayout = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("registrar.fxml")));
-
-        // Crear una nueva escena con el nuevo layout
-        Scene registrarScene = new Scene(registrarLayout);
-
-        // Obtener el Stage actual (la ventana)
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Cambiar la escena a la del registro
-        currentStage.setScene(registrarScene);
+    public void setRegistrar(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("registrar.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Registrar Usuario");
+        stage.setResizable(false);
+        stage.show();
     }
 
 }

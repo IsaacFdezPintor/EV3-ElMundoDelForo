@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="350.0" prefWidth="400.0" style="-fx-background-color: #f9f9f9;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ActualizarUsuarioController">
+
+    <VBox alignment="CENTER" prefHeight="290.0" prefWidth="360.0" spacing="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <children>
+            <Text style="-fx-font-size: 20px;" text="Actualizar Usuario">
+                <font>
+                    <Font name="Arial Bold" size="20" />
+                </font>
+            </Text>
+
+            <GridPane hgap="10" vgap="10">
+                <children>
+                    <Label text="Nombre:" />
+                    <TextField fx:id="inputNombre" promptText="Nuevo nombre" GridPane.columnIndex="1" />
+
+                    <Label text="Apellido:" GridPane.rowIndex="1" />
+                    <TextField fx:id="inputApellido" promptText="Nuevo apellido" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Label text="Correo:" GridPane.rowIndex="2" />
+                    <TextField fx:id="inputCorreo" promptText="Nuevo correo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                    <Label text="Tipo Usuario:" GridPane.rowIndex="3" />
+                    <ComboBox fx:id="comboTipoUsuario" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Administrador" />
+                                <String fx:value="Usuario" />
+                                <String fx:value="Moderador" />
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </children>
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            </GridPane>
+
+            <HBox spacing="10">
+                <Button onAction="#guardarCambios" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;" text="Guardar" />
+                <Button onAction="#cerrarVentana" style="-fx-background-color: #9E9E9E; -fx-text-fill: white; -fx-background-radius: 5;" text="Cancelar" />
+            </HBox>
+        </children>
+    </VBox>
+</AnchorPane>

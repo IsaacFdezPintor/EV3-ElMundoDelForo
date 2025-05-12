@@ -16,6 +16,12 @@ public class DAOForo {
     private final static String DELETE_FORO = "DELETE FROM foro WHERE id_foro = ? AND id_creador = ?";
     private final static String FIND_BY_ID = "SELECT * FROM foro WHERE id_foro = ?";
     private final static String FIND_ALL = "SELECT * FROM foro";
+    private final static String FIND_NAME_CREADOR =
+            "SELECT c.id_usuario, c.nombre, c.apellidos, c.email, c.password, c.fecha_registro " +
+                    "FROM creador c " +
+                    "JOIN foro f ON c.id_usuario = f.id_creador " +
+                    "WHERE f.titulo = ?";
+    ;
 
     public Foro insert(Foro foro, UsuarioCreador creador) throws SQLException {
         if (foro != null && creador != null) {
@@ -81,21 +87,46 @@ public class DAOForo {
         return foro;
     }
 
-    public List<Foro> findAll() throws SQLException {
+    public List<Foro> findAll() {
         List<Foro> foros = new ArrayList<>();
-        try (Statement st = ConnectionBD.getConnection().createStatement()) {
-            ResultSet rs = st.executeQuery(FIND_ALL);
+
+        try (Connection conn = ConnectionBD.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(FIND_ALL)) {
+
             while (rs.next()) {
-                Foro foro = new Foro();
-                foro.setId_foro(rs.getInt("id_foro"));
-                foro.setTitulo(rs.getString("titulo"));
-                foro.setDescripcion(rs.getString("descripcion"));
-                foro.setFecha_creacion(rs.getDate("fecha_creacion"));
-                foro.setId_creador(rs.getInt("id_creador"));
+                Foro foro = new Foro(rs.getString("titulo"),
+                        rs.getString("descripcion"),
+                        rs.getDate("fecha_creacion"),
+                        rs.getInt("id_creador"));
                 foros.add(foro);
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return foros;
+    }
+
+
+    public UsuarioCreador findCreador(Foro foro) throws SQLException {
+        UsuarioCreador creador = null;
+            try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FIND_NAME_CREADOR)) {
+                pst.setString(1, foro.getTitulo());
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    creador = new UsuarioCreador();
+                    creador.setId_Usuario(rs.getInt("id_usuario"));
+                    System.out.println("ID Creador: " + creador.getId_Usuario());
+                    creador.setNombre(rs.getString("nombre"));
+                    creador.setApellidos(rs.getString("apellidos"));
+                    creador.setEmail(rs.getString("email"));
+                    creador.setPassword(rs.getString("password"));
+                    creador.setFechaDeRegistro(rs.getDate("fecha_registro"));
+                }
+            }
+        return creador;
     }
 }
 

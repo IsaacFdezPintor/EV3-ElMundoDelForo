@@ -16,7 +16,6 @@ public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
     private final static String FIND_ALL = "SELECT * FROM creador WHERE tipo_usuario = 'CREADOR'";
     private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM creador WHERE email = ? AND password = ? AND tipo_usuario = 'CREADOR'";
     private final static String EXISTS_BY_EMAIL = "SELECT COUNT(*) FROM creador WHERE email = ?";
-    private final static String FIND_BY_TITULO = "SELECT * FROM creador WHERE titulo LIKE ?";
 
 
     @Override

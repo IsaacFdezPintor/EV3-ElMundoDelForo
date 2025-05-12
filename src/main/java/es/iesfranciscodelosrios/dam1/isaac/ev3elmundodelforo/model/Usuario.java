@@ -11,6 +11,7 @@ public  abstract class Usuario {
     private String email;
     private String password;
     private Date fechaDeRegistro;
+    private String tipoUsuario;
 
     public Usuario(String nombre, String apellidos, String email, String password, Date fechaDeRegistro) {
         this.nombre = nombre;
@@ -70,6 +71,12 @@ public  abstract class Usuario {
         this.fechaDeRegistro = fechaDeRegistro;
     }
 
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 
     @Override
     public String toString() {

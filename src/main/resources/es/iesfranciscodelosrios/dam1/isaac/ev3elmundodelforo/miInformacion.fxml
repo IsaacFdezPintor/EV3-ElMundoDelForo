@@ -42,7 +42,7 @@
 
             <!-- Botones -->
             <HBox spacing="10">
-                <Button style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-background-radius: 5;" text="Actualizar" />
+                <Button style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-background-radius: 5;" text="Actualizar" onAction="#actualizarUsuario"/>
                 <Button style="-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-background-radius: 5;" text="Cerrar" />
             </HBox>
         </children>

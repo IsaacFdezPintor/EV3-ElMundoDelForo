@@ -8,13 +8,13 @@ import java.io.Serializable;
 /**
  * Esta clase representa los datos necesarios para conectarse a una base de datos.
  * Es utilizada para leer o escribir esta información desde/hacia un archivo XML
- * usando JAXB (Java Architecture for XML Binding).
+ * usando JAXB .
  */
-@XmlRootElement(name = "connection")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "connection") // Define el nombre del elemento raíz del XML como "connection"
+@XmlAccessorType(XmlAccessType.FIELD) // Indica que se accederá a los campos directamente, sin necesidad de métodos getter/setter
 public class ConnectionProperties implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; // Versión de serialización, para asegurar la compatibilidad entre versiones
 
     // Atributos que se asignarán automáticamente desde el XML
     private String server;     // Dirección del servidor de base de datos
@@ -25,6 +25,7 @@ public class ConnectionProperties implements Serializable {
 
     /**
      * Constructor vacío requerido por JAXB para deserializar desde XML.
+     * Este constructor vacío es necesario para que JAXB pueda crear una instancia de la clase.
      */
     public ConnectionProperties() {}
 

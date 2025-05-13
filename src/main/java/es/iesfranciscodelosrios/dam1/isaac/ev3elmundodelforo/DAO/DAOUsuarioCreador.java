@@ -1,6 +1,7 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.baseDatos.ConnectionBD;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 
 import java.sql.*;
@@ -20,6 +21,7 @@ public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
     private final static String FIND_ALL = "SELECT * FROM creador WHERE tipo_usuario = 'CREADOR'";
     private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM creador WHERE email = ? AND password = ? AND tipo_usuario = 'CREADOR'";
     private final static String EXISTS_BY_EMAIL = "SELECT COUNT(*) FROM creador WHERE email = ?";
+    private final static String UPDATE_NUM_FOROS = "UPDATE creador SET num_foros_creados = ? WHERE id_usuario = ?";
 
     /**
      * Inserta un nuevo usuario creador en la base de datos.
@@ -196,5 +198,19 @@ public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean updateNumForos (UsuarioCreador creador) throws SQLException{
+        Boolean update = false;
+        Connection con = ConnectionBD.getConnection();
+        try (PreparedStatement pst = con.prepareStatement(UPDATE_NUM_FOROS)) {
+            pst.setInt(1, creador.getNum_ForosCreados());
+            pst.setInt(2, creador.getId_Usuario());
+            pst.executeUpdate();
+            update = true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return update;
     }
 }

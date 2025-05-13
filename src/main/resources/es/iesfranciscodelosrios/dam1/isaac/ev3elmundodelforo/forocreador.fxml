@@ -23,7 +23,7 @@
     <GridPane hgap="20.0" vgap="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
         <children>
             <!-- Columna 1: Lista de Foros -->
-            <VBox spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="0" VBox.vgrow="ALWAYS">
+            <VBox prefHeight="200.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="0" VBox.vgrow="ALWAYS">
                 <children>
                     <Label style="-fx-font-weight: bold;" text="Lista de Foros" />
                     <ScrollPane fitToHeight="true" fitToWidth="true">
@@ -51,17 +51,13 @@
 
                     <!-- Botones de Editar y Eliminar -->
                     <HBox alignment="CENTER_RIGHT" spacing="10">
-                  <Label fx:id="mensajeAlerta" prefHeight="17.0" prefWidth="300.0" HBox.hgrow="SOMETIMES" />
+                        <Label fx:id="mensajeAlerta" prefHeight="17.0" prefWidth="300.0" HBox.hgrow="SOMETIMES" />
                         <Button fx:id="btnAnadir" onAction="#anadirNuevoForo" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Añadir" />
                         <Button fx:id="btnEditar" onAction="#actualizarForo" style="-fx-background-color: #FFC107; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Actualizar" />
                         <Button fx:id="btnEliminar" onAction="#eliminarItemSeleccionado" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Eliminar" />
                     </HBox>
 
-                    <!-- Campo de escritura de comentario -->
-                    <TextArea fx:id="campoComentario" promptText="Escribe tu comentario aquí..." style="-fx-font-size: 12px;" wrapText="true" />
-
-                    <!-- Botón publicar -->
-                    <Button fx:id="btnPublicarComentario" alignment="CENTER_RIGHT" onAction="#PublicarComentario" prefWidth="100.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 13px; -fx-background-radius: 5px;" text="Publicar" />
+                    <!-- Campo de comentario y botón de publicar eliminados -->
                 </children>
             </VBox>
         </children>

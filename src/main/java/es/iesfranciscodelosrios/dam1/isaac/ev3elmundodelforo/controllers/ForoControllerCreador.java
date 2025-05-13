@@ -2,7 +2,7 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOForo;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOTexto;
-import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.HelloApplication;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.Start;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Texto;
@@ -67,9 +67,14 @@ public class ForoControllerCreador {
      */
     private void cargarForos() throws SQLException {
         DAOForo daoForo = new DAOForo();
-        List<Foro> foros = daoForo.findAll();
-        listaForos.getItems().setAll(foros);
+        Usuario usuarioActual = SesionUsuario.getUsuario();
+
+        if (usuarioActual != null) {
+            List<Foro> foros = daoForo.findForosByID(usuarioActual.getId_Usuario());
+            listaForos.getItems().setAll(foros);
+        }
     }
+
 
     /**
      * Carga los comentarios asociados a un foro específico.
@@ -206,7 +211,7 @@ public class ForoControllerCreador {
      */
     @FXML
     public void anadirNuevoForo(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("nuevoforo.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("nuevoforo.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -224,7 +229,7 @@ public class ForoControllerCreador {
      */
     @FXML
     public void actualizarForo(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("actualizarforo.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("actualizarforo.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -264,8 +269,17 @@ public class ForoControllerCreador {
      * Actualiza la lista de foros visibles en pantalla.
      */
     private void actualizarListaForos() {
-        DAOForo daoForo = new DAOForo();
-        List<Foro> foros = daoForo.findAll();
-        listaForos.getItems().setAll(foros);
+        try {
+            DAOForo daoForo = new DAOForo();
+            Usuario usuarioActual = SesionUsuario.getUsuario();
+
+            if (usuarioActual != null) {
+                List<Foro> foros = daoForo.findForosByID(usuarioActual.getId_Usuario());
+                listaForos.getItems().setAll(foros);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }

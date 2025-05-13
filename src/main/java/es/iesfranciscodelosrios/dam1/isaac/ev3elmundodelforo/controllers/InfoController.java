@@ -2,10 +2,13 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils.ViewUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,6 +37,11 @@ public class InfoController  {
         } else {
             labelNombre.setText("Usuario no encontrado");
         }
+    }
+
+    @FXML
+    public void actualizarUsuario(ActionEvent actionEvent) throws IOException {
+        ViewUtils.abrirNuevaVentanaFija("actualizarUsuario.fxml", "Actualizar Usuario");
     }
 }
 

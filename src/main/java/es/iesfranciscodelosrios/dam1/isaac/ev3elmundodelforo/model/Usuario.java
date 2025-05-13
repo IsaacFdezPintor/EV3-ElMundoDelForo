@@ -10,15 +10,14 @@ public  abstract class Usuario {
     private String apellidos;
     private String email;
     private String password;
-    private Date fechaDeRegistro;
+    private Date fechaDeRegistro = Date.valueOf(LocalDate.now());;
     private String tipoUsuario;
 
-    public Usuario(String nombre, String apellidos, String email, String password, Date fechaDeRegistro) {
+    public Usuario(String nombre, String apellidos, String email, String password) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
         this.password = password;
-        this.fechaDeRegistro = fechaDeRegistro;
     }
     public Usuario() {
     }

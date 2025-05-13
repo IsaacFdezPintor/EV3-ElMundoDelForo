@@ -18,9 +18,7 @@ import java.time.LocalDate;
  */
 public class RegistrarControllers {
 
-    @FXML private RadioButton radioCreador;
-    @FXML private RadioButton radioComun;
-    @FXML private ToggleGroup grupoTipoUsuario;
+    @FXML private ComboBox<String> comboTipoUsuario;
     @FXML private TextField nombreField;
     @FXML private TextField apellidoField;
     @FXML private TextField emailField;
@@ -40,19 +38,13 @@ public class RegistrarControllers {
     private void onRegistrarUsuario() {
         String nombre = nombreField.getText().trim();
         String apellido = apellidoField.getText().trim();
-        String email = emailField.getText().trim();
+        String email = emailField.getText();
         String password = passwordField.getText();
         String confirmarPassword = confirmarPasswordField.getText();
-
-        String tipoUsuario = "";
-        if (radioCreador.isSelected()) {
-            tipoUsuario = "Creador";
-        } else if (radioComun.isSelected()) {
-            tipoUsuario = "Comun";
-        }
+        String tipoUsuario = comboTipoUsuario.getValue();
 
         if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty()
-                || password.isEmpty() || confirmarPassword.isEmpty() || tipoUsuario.isEmpty()) {
+                || password.isEmpty() || confirmarPassword.isEmpty() || tipoUsuario == null) {
             mensajeLabel.setText("Por favor, rellena todos los campos.");
             return;
         }
@@ -64,37 +56,39 @@ public class RegistrarControllers {
 
         if (!Utils.EmailValido(email)) {
             mensajeLabel.setText("Correo electrónico inválido.");
+            System.out.println(Utils.EmailValido(email));
             return;
         }
 
-
         try {
-            boolean existe = false;
+            boolean existe;
 
-            if (tipoUsuario.equals("Creador")) {
+            if (tipoUsuario.equalsIgnoreCase("Creador")) {
                 DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
                 existe = daoUsuarioCreador.existsByEmail(email);
 
                 if (!existe) {
-                    UsuarioCreador creador = new UsuarioCreador(nombre, apellido, email, password, Date.valueOf(LocalDate.now()));
+                    UsuarioCreador creador = new UsuarioCreador(nombre, apellido, email, password);
                     daoUsuarioCreador.insert(creador);
                 }
-            } else {
+            } else if (tipoUsuario.equalsIgnoreCase("Común")) {
                 DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
                 existe = daoUsuarioComun.existsByEmail(email);
 
                 if (!existe) {
-                    UsuarioComun comun = new UsuarioComun(nombre, apellido, email, password, Date.valueOf(LocalDate.now()));
+                    UsuarioComun comun = new UsuarioComun(nombre, apellido, email, password);
                     daoUsuarioComun.insert(comun);
                 }
+            } else {
+                mensajeLabel.setText("Tipo de usuario no válido.");
+                return;
             }
 
             if (existe) {
                 mensajeLabel.setText("Ya existe un usuario con ese correo.");
-                return;
+            } else {
+                mensajeLabel.setText("Registro exitoso para " + nombre + " (" + tipoUsuario + ")");
             }
-
-            mensajeLabel.setText("Registro exitoso para " + nombre + " (" + tipoUsuario + ")");
 
         } catch (Exception e) {
             mensajeLabel.setText("Error al registrar el usuario: " + e.getMessage());

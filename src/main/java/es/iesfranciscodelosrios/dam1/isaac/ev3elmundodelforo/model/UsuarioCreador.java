@@ -9,15 +9,15 @@ public class UsuarioCreador extends Usuario{
         super();
     }
 
-    public UsuarioCreador(String nombre, String apellidos, String email, String password, Date fechaDeRegistro) {
-        super(nombre, apellidos, email, password, fechaDeRegistro);
+    public UsuarioCreador(String nombre, String apellidos, String email, String password) {
+        super(nombre, apellidos, email, password);
     }
 
     public int getNum_ForosCreados() {
         return Num_ForosCreados;
     }
-    public void setNum_ForosCreados(int num_ForosCreados) {
-        Num_ForosCreados = num_ForosCreados;
+    public void setNum_ForosCreados() {
+        Num_ForosCreados = Num_ForosCreados + 1;
     }
 
     @Override

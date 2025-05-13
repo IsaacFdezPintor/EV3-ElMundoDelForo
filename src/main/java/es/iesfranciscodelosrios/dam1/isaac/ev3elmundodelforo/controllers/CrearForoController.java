@@ -1,9 +1,11 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOForo;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -46,6 +48,13 @@ public class CrearForoController {
             return;
         }
 
+        if (usuarioActual.getTipoUsuario().equals("Creador")) {
+            UsuarioCreador creador = (UsuarioCreador) usuarioActual;
+            creador.setNum_ForosCreados();
+            DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
+            daoUsuarioCreador.updateNumForos(creador);
+        }
+
         Foro nuevoForo = new Foro();
         nuevoForo.setTitulo(titulo);
         nuevoForo.setDescripcion(descripcion);
@@ -53,6 +62,7 @@ public class CrearForoController {
 
         DAOForo daoForo = new DAOForo();
         daoForo.insert(nuevoForo , usuarioActual);
+
 
         Stage stage = (Stage) btnCrearForo.getScene().getWindow();
         stage.close();

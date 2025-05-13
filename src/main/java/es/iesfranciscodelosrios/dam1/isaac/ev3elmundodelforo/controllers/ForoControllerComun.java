@@ -1,18 +1,17 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOForo;
-import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
-import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.HelloApplication;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOTexto;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Texto;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils.ViewUtils;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,24 +19,31 @@ import java.util.List;
 
 public class ForoControllerComun {
 
-    @FXML
-    private ListView<Foro> listaForos;
+    @FXML private ListView<Foro> listaForos;
+    @FXML private Button btnEliminar;
+    @FXML private Label labelDescripcionForo;
+    @FXML private Label labelCreadorForo;
+    @FXML private Button btnMiInformacion;
+    @FXML private Button btnCerrarSesion;
+    @FXML private ListView<Texto> listaComentarios;
+    @FXML private Button btnPublicarComentario;
+    @FXML private TextArea campoComentario;
+    @FXML private Label mensajeAlerta;
 
-    @FXML
-    private Label labelDescripcionForo;
-
-    @FXML
-    private Label labelCreadorForo;
-
-    @FXML
-    private Button btnMiInformacion;
-
-    @FXML
-    private Button btnCerrarSesion;
-
-
-
+    /**
+     * Inicializa el controlador cargando la lista de foros disponibles.
+     *
+     * @throws SQLException si ocurre un error al acceder a la base de datos.
+     */
     public void initialize() throws SQLException {
+        configurarListaForos();
+        cargarForos();
+    }
+
+    /**
+     * Configura cómo se mostrarán los foros en la ListView (solo el título).
+     */
+    private void configurarListaForos() {
         listaForos.setCellFactory(lv -> new ListCell<Foro>() {
             @Override
             protected void updateItem(Foro item, boolean empty) {
@@ -49,61 +55,127 @@ public class ForoControllerComun {
                 }
             }
         });
+    }
 
+    /**
+     * Carga todos los foros desde la base de datos.
+     *
+     * @throws SQLException si ocurre un error en el acceso a los datos.
+     */
+    private void cargarForos() throws SQLException {
         DAOForo daoForo = new DAOForo();
-        DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
         List<Foro> foros = daoForo.findAll();
         listaForos.getItems().setAll(foros);
+    }
 
-        if (!foros.isEmpty()) {
-            Foro primerForo = foros.get(0);
-            labelDescripcionForo.setText("Descripción: " + primerForo.getDescripcion());
+    /**
+     * Carga los comentarios asociados a un foro específico.
+     *
+     * @param foro Foro del cual se desean cargar los comentarios.
+     * @throws SQLException si ocurre un error en la consulta.
+     */
+    private void cargarComentarios(Foro foro) throws SQLException {
+        DAOTexto daoTexto = new DAOTexto();
+        List<Texto> comentarios = daoTexto.findAllByForoId(foro.getId_foro());
+        listaComentarios.getItems().setAll(comentarios);
+    }
 
-            // Obtener el creador de ese primer foro
-            //String creador = daoUsuarioCreador.findByTitulo(primerForo.getTitulo()).getNombre();
-            //labelCreadorForo.setText("Creador: " + creador);
+    /**
+     * Publica un comentario nuevo en el foro seleccionado.
+     *
+     * @throws SQLException si ocurre un error al insertar el comentario.
+     */
+    @FXML
+    private void PublicarComentario() throws SQLException {
+        String comentarioTexto = campoComentario.getText().trim();
+
+        if (comentarioTexto.isEmpty()) {
+            mensajeAlerta.setText("El comentario no puede estar vacío.");
+            return;
         }
 
-        // Agregar un manejador de eventos para cuando se selecciona un foro
-        listaForos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                // Si hay un foro seleccionado, actualiza los labels con su información
-                labelDescripcionForo.setText("Descripción: " + newValue.getDescripcion());
+        Usuario usuarioActual = SesionUsuario.getUsuario();
 
-                // Obtener el creador de este foro
-                //String creador = daoUsuarioCreador.findByTitulo(newValue.getTitulo()).getNombre();
-                //labelCreadorForo.setText("Creador: " + creador);
-            } else {
-                labelDescripcionForo.setText("Descripción: ");
-                labelCreadorForo.setText("Creador: ");
-            }
+        if (usuarioActual == null) {
+            mensajeAlerta.setText("No hay un usuario logueado.");
+            return;
+        }
 
+        Foro foroSeleccionado = listaForos.getSelectionModel().getSelectedItem();
 
-        });
+        if (foroSeleccionado == null) {
+            mensajeAlerta.setText("Debes seleccionar un foro para comentar.");
+            return;
+        }
 
+        Texto nuevoComentario = new Texto();
+        nuevoComentario.setTexto(comentarioTexto);
+        nuevoComentario.setId_foro(foroSeleccionado.getId_foro());
+        nuevoComentario.setId_usuario(usuarioActual.getId_Usuario());
 
+        DAOTexto daoTexto = new DAOTexto();
+        boolean comentarioPublicado = daoTexto.insert(usuarioActual, foroSeleccionado, nuevoComentario);
+
+        if (comentarioPublicado) {
+            cargarComentarios(foroSeleccionado);
+            campoComentario.clear();
+            mensajeAlerta.setText("Comentario publicado con éxito.");
+        } else {
+            mensajeAlerta.setText("No se pudo publicar el comentario.");
+        }
     }
+
+    /**
+     * Muestra la descripción y creador del foro seleccionado.
+     *
+     * @param mouseEvent Evento de selección con el ratón.
+     * @throws SQLException si ocurre un error al obtener los datos del foro.
+     */
     @FXML
-    public void miInformacion (ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("miInformacion.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Mi Información");
-        stage.setResizable(false);
-        stage.show();
+    public void mostrarForoSeleccionado(MouseEvent mouseEvent) throws SQLException {
+        Foro foroSeleccionado = listaForos.getSelectionModel().getSelectedItem();
+        if (foroSeleccionado != null) {
+            DAOForo daoForo = new DAOForo();
+            labelDescripcionForo.setText("Descripción: " + foroSeleccionado.getDescripcion());
+            String creador = daoForo.findCreador(foroSeleccionado).getNombre();
+            labelCreadorForo.setText("Creador: " + creador);
+            cargarComentarios(foroSeleccionado);
+        }
     }
+
+
+    /**
+     * Abre la ventana de información personal del usuario.
+     *
+     * @param actionEvent Evento del botón.
+     * @throws IOException si falla la carga del FXML.
+     */
     @FXML
-    public void cerrarSesion (ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Login");
-        stage.setResizable(false);
-        stage.show();
+    public void miInformacion(ActionEvent actionEvent) throws IOException {
+        ViewUtils.abrirNuevaVentanaFija("miInformacion.fxml", "Mi Información");
+    }
+
+    /**
+     * Cierra la sesión del usuario y redirige al login.
+     *
+     * @param actionEvent Evento del botón.
+     * @throws IOException si falla la carga del FXML.
+     */
+    @FXML
+    public void cerrarSesion(ActionEvent actionEvent) throws IOException {
+        ViewUtils.abrirNuevaVentanaFija("login.fxml", "Login");
         SesionUsuario.cerrarSesion();
         Stage currentStage = (Stage) btnCerrarSesion.getScene().getWindow();
         currentStage.close();
+    }
+
+
+    /**
+     * Actualiza la lista de foros visibles en pantalla.
+     */
+    private void actualizarListaForos() {
+        DAOForo daoForo = new DAOForo();
+        List<Foro> foros = daoForo.findAll();
+        listaForos.getItems().setAll(foros);
     }
 }

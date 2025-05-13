@@ -4,6 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <AnchorPane fx:id="registerPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.RegistrarControllers">
 
     <Text fill="#333333" layoutX="160.0" layoutY="54.0" text="Registro de Usuario" textAlignment="CENTER" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="159.09765625">
@@ -13,15 +15,17 @@
     </Text>
 
     <!-- Selección de tipo de usuario -->
-    <HBox alignment="CENTER" layoutY="80" spacing="20" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+    <HBox alignment="CENTER_LEFT" layoutY="80.0" spacing="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
         <children>
             <Label text="Tipo de usuario:" />
-
-            <!-- RadioButton Creador -->
-            <RadioButton fx:id="radioCreador" text="Creador" />
-
-            <!-- RadioButton Común -->
-            <RadioButton fx:id="radioComun" text="Común" />
+            <ComboBox fx:id="comboTipoUsuario" promptText="Selecciona un tipo" prefWidth="200.0">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Creador" />
+                        <String fx:value="Común" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
         </children>
     </HBox>
 

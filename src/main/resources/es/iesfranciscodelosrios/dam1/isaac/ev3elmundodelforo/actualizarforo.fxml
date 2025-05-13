@@ -29,3 +29,5 @@
     <Label fx:id="mensajeLabel" layoutX="120.0" layoutY="390.0" prefHeight="17.0" prefWidth="368.0" style="-fx-text-fill: red;" text="" />
 
 </AnchorPane>
+
+

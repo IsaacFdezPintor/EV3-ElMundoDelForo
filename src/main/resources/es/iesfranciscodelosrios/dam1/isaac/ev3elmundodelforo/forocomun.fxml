@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ForoControllerCreador">
+<AnchorPane style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ForoControllerComun">
 
     <!-- Título -->
     <Text fill="#333333" layoutX="277.0" layoutY="35.0" text="Foros y Comentarios" textAlignment="CENTER">
@@ -52,9 +52,6 @@
                     <!-- Botones de Editar y Eliminar -->
                     <HBox alignment="CENTER_RIGHT" spacing="10">
                         <Label fx:id="mensajeAlerta" prefHeight="17.0" prefWidth="300.0" HBox.hgrow="SOMETIMES" />
-                        <Button fx:id="btnAnadir" onAction="#anadirNuevoForo" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Añadir" />
-                        <Button fx:id="btnEditar" onAction="#actualizarForo" style="-fx-background-color: #FFC107; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Actualizar" />
-                        <Button fx:id="btnEliminar" onAction="#eliminarItemSeleccionado" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Eliminar" />
                     </HBox>
 
                     <!-- Campo de escritura de comentario -->

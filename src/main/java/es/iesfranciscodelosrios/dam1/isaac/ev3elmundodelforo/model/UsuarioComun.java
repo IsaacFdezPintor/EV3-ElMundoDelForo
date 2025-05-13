@@ -11,8 +11,8 @@ public class UsuarioComun extends Usuario{
         super();
     }
 
-    public UsuarioComun(String nombre, String apellidos, String email, String password, Date fechaDeRegistro) {
-        super(nombre, apellidos, email, password, fechaDeRegistro);
+    public UsuarioComun(String nombre, String apellidos, String email, String password) {
+        super(nombre, apellidos, email, password);
     }
 
     public List<Contenido> getContenido() {

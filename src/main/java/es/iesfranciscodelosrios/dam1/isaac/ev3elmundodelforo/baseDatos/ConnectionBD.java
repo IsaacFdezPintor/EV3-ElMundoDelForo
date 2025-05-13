@@ -1,31 +1,38 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.baseDatos;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Esta clase proporciona una conexión única y global a la base de datos.
- * Utiliza el patrón Singleton para asegurar que solo se cree una instancia de la conexión.
- * La configuración de la conexión se obtiene desde un archivo XML (connection.xml).
+ * Clase Singleton que gestiona una única conexión global a la base de datos.
+ * La configuración de la conexión se extrae desde un archivo XML (connection.xml)
+ * usando la clase XMLManager.
  */
 public class ConnectionBD {
-    private static final String FILE = "connection.xml";
-    private static Connection con;
-    private static ConnectionBD _instance;
+
+    private static final String FILE = "connection.xml"; // Archivo de configuración XML
+    private static Connection con;                       // Conexión JDBC
+    private static ConnectionBD _instance;               // Instancia Singleton
 
     /**
-     * Constructor privado para inicializar la conexión con la base de datos.
-     * El constructor se lee desde un archivo XML y se establece la conexión utilizando las propiedades obtenidas.
+     * Constructor privado que inicializa la conexión a la base de datos.
+     * Utiliza los datos obtenidos desde el archivo XML para conectarse.
+     *
+     * No tiene parámetros, ya que la configuración se obtiene internamente del XML.
      */
     private ConnectionBD() {
         ConnectionProperties properties = XMLManager.readXML(new ConnectionProperties(), FILE);
-        System.out.println(properties.getURL());
-        System.out.println(properties.getUser());
-        System.out.println(properties.getPassword());
+        properties.getURL();
+        properties.getUser();
+        properties.getPassword();
+
         try {
-            con = DriverManager.getConnection(properties.getURL(), properties.getUser(), properties.getPassword());
+            con = DriverManager.getConnection(
+                    properties.getURL(),
+                    properties.getUser(),
+                    properties.getPassword()
+            );
         } catch (SQLException e) {
             e.printStackTrace();
             con = null;
@@ -33,13 +40,16 @@ public class ConnectionBD {
     }
 
     /**
-     * Obtiene la instancia única de la clase ConnectionBD.
-     * Si la instancia aún no ha sido creada, se crea y se establece la conexión.
+     * Método público y estático para obtener la conexión a la base de datos.
+     * Garantiza que se utilice una única instancia de la clase para mantener
+     * una única conexión activa (patrón Singleton).
      *
-     * @return La conexión a la base de datos. Si no se puede establecer la conexión, retorna null.
+     * @return Un objeto {@link Connection} si la conexión se establece correctamente.
+     *         Devuelve {@code null} si ocurre un error o no se puede establecer la conexión.
      */
     public static Connection getConnection() {
         try {
+            // Si no hay instancia o la conexión está cerrada, se crea una nueva
             if (_instance == null || con == null || con.isClosed()) {
                 _instance = new ConnectionBD();
             }
@@ -47,7 +57,7 @@ public class ConnectionBD {
             e.printStackTrace();
             return null;
         }
+
         return con;
     }
 }
-

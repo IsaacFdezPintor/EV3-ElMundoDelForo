@@ -2,50 +2,46 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioComun;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
-import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.HelloApplication;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioComun;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils.ViewUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
+/**
+ * Controlador para la vista de inicio de sesión.
+ * Este controlador gestiona la autenticación de usuarios comunes y creadores,
+ * y la navegación hacia las respectivas vistas si el inicio de sesión es exitoso.
+ */
 public class LoginController {
+    @FXML private TextField textEmail;
+    @FXML private PasswordField textPassword;
+    @FXML private Button login;
+    @FXML private Button registrar;
+    @FXML private Label errorMensaje;
 
-    @FXML
-    private TextField textEmail;  // Campo de texto para el correo electrónico
-
-    @FXML
-    private PasswordField textPassword;  // Campo de texto para la contraseña
-
-    @FXML
-    private Button login;  // Botón de inicio de sesión
-
-    @FXML
-    private Button registrar;  // Botón de registro
-
-    @FXML
-    private Label errorMensaje;  // Etiqueta para mostrar errores
-
-
-
+    /**
+     * Método llamado cuando el usuario hace clic en el botón de iniciar sesión.
+     * Este método valida los campos, comprueba las credenciales del usuario,
+     * y redirige a la vista correspondiente según el tipo de usuario.
+     *
+     * @throws SQLException Si hay un error al conectar o consultar la base de datos.
+     * @throws RuntimeException Si ocurre un error de carga de vista (IOException).
+     */
     @FXML
     private void onLogin() {
-        String email = textEmail.getText();
+        String email = textEmail.getText().trim();
         String password = textPassword.getText().trim();
+
         DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
         DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
 
@@ -53,65 +49,44 @@ public class LoginController {
             errorMensaje.setText("Ambos campos son obligatorios.");
         } else {
             try {
+                Stage cerrarVentana = (Stage) login.getScene().getWindow();
+
                 if (daoUsuarioCreador.check(email, password)) {
                     UsuarioCreador usuarioCreador = daoUsuarioCreador.findByCorreo(email);
                     SesionUsuario.setUsuario(usuarioCreador);
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("forocreador.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load());
-                        Stage stage = new Stage();
-                        stage.setScene(scene);
-                        stage.setTitle("Mundo del Foro - Creador");
-                        stage.show();
+                    ViewUtils.abrirNuevaVentana("forocreador.fxml", "Mundo del Foro - Creador");
+                    cerrarVentana.close();
+                }
 
-                        // Cerrar la ventana de login
-                        Stage loginStage = (Stage) textEmail.getScene().getWindow();
-                        loginStage.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errorMensaje.setText("Error al cargar la vista.");
-                    }
-
-                } else if (daoUsuarioComun.check(email, password)) {
+                else if (daoUsuarioComun.check(email, password)) {
                     UsuarioComun usuarioComun = daoUsuarioComun.findByCorreo(email);
                     SesionUsuario.setUsuario(usuarioComun);
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("forocomun.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load());
-                        Stage stage = new Stage();
-                        stage.setScene(scene);
-                        stage.setTitle("Mundo del Foro - Usuario");
-                        stage.show();
+                    ViewUtils.abrirNuevaVentana("forocomun.fxml", "Mundo del Foro - Usuario");
+                    cerrarVentana.close();
+                }
 
-                        // Cerrar la ventana de login
-                        Stage loginStage = (Stage) textEmail.getScene().getWindow();
-                        loginStage.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        errorMensaje.setText("Error al cargar la vista.");
-                    }
-                } else {
+                else {
                     errorMensaje.setText("Credenciales incorrectas.");
                 }
+
             } catch (SQLException e) {
                 e.printStackTrace();
                 errorMensaje.setText("Error al conectar con la base de datos.");
+            } catch (IOException e) {
+                throw new RuntimeException("No se pudo cargar la vista");
             }
         }
     }
 
+    /**
+     * Método que se ejecuta al hacer clic en el botón de "Registrar".
+     * Abre la ventana del formulario de registro de usuario.
+     *
+     * @param actionEvent Evento de acción del botón.
+     * @throws IOException Si no se puede cargar la vista de registro.
+     */
     @FXML
     public void setRegistrar(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("registrar.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Registrar Usuario");
-        stage.setResizable(false);
-        stage.show();
+        ViewUtils.abrirNuevaVentanaFija("registrar.fxml", "Registrar Usuario");
     }
-
 }
-

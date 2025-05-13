@@ -1,10 +1,11 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public abstract class Contenido {
    private int id_contenido;
-    private Date fecha;
+    private Date fecha = Date.valueOf(LocalDate.now());
     private int id_usuario;
     private int id_foro;
 

@@ -14,6 +14,7 @@ module es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo {
 
     requires java.sql;
     requires java.xml.bind;
+    requires java.desktop;
 
     opens es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo to javafx.graphics, javafx.fxml;
     opens es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers to javafx.fxml;

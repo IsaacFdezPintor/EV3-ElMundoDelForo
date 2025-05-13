@@ -13,23 +13,22 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
+/**
+ * Controlador de la pantalla para crear un nuevo foro.
+ */
 public class CrearForoController {
 
-    @FXML
-    private TextField tituloField;
-
-    @FXML
-    private TextArea descripcionField;
-
-    @FXML
-    private Button btnCrearForo;
-
-    @FXML
-    private Label mensajeLabel;
-
-
-
-
+    @FXML private TextField tituloField;
+    @FXML private TextArea descripcionField;
+    @FXML private Button btnCrearForo;
+    @FXML private Label mensajeLabel;
+    /**
+     * Método llamado cuando el usuario hace clic en el botón para crear un foro.
+     * Este método verifica que los campos no estén vacíos, crea el foro en la base de datos
+     * y cierra la ventana de creación del foro.
+     *
+     * @throws SQLException si ocurre un error al interactuar con la base de datos
+     */
     @FXML
     private void crearForo() throws SQLException {
         String titulo = tituloField.getText().trim();
@@ -59,4 +58,3 @@ public class CrearForoController {
         stage.close();
     }
 }
-

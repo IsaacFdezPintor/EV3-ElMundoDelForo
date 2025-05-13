@@ -18,6 +18,14 @@ public class Foro {
         this.id_creador = id_creador;
     }
 
+    public Foro( int id_foro,String titulo, String descripcion, Date fecha_creacion, int id_creador) {
+        this.id_foro = id_foro;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fecha_creacion = fecha_creacion;
+        this.id_creador = id_creador;
+    }
+
     public Foro() {
     }
 
@@ -59,12 +67,6 @@ public class Foro {
     @Override
 
     public String toString() {
-        return "Foro{" +
-                "id_foro=" + id_foro +
-                ", titulo='" + titulo + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", fecha_creacion=" + fecha_creacion +
-                ", id_creador=" + id_creador +
-                '}';
+        return titulo;
     }
 }

@@ -7,55 +7,55 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 /**
-     * Esta clase proporciona métodos estáticos para escribir y leer objetos desde archivos XML.
-     * Se utiliza JAXB (Java Architecture for XML Binding) para la serialización y deserialización de objetos.
+ * Clase utilitaria para trabajar con archivos XML mediante JAXB.
+ * Permite serializar (escribir) y deserializar (leer) objetos Java en/desde archivos XML.
+ */
+public class XMLManager {
+
+    /**
+     * Serializa un objeto genérico a un archivo XML.
+     * Usa JAXB para convertir el objeto a XML y lo guarda en el archivo especificado.
+     *
+     * @param <T> El tipo del objeto a serializar.
+     * @param c El objeto que se quiere guardar en formato XML.
+     * @param filename Nombre del archivo XML donde se guardará el objeto.
+     * @return {@code true} si el proceso fue exitoso, {@code false} si ocurrió una excepción.
      */
-    public class XMLManager {
-
-        /**
-         * Escribe un objeto genérico en un archivo XML.
-         * Utiliza JAXB para convertir el objeto a formato XML y guardarlo en el archivo especificado.
-         *
-         * @param c El objeto que se desea serializar a XML.
-         * @param filename El nombre del archivo donde se almacenará el objeto en formato XML.
-         * @return true si la escritura del XML fue exitosa, false en caso contrario.
-         */
-        public static <T> boolean writeXML(T c, String filename) {
-            boolean result = false;
-            JAXBContext context;
-            try {
-                context = JAXBContext.newInstance(c.getClass());
-                Marshaller m = context.createMarshaller();
-                m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-                m.marshal(c, new File(filename));
-                result = true;
-            } catch (JAXBException e) {
-                e.printStackTrace();
-            }
-            return result;
+    public static <T> boolean writeXML(T c, String filename) {
+        boolean result = false;
+        JAXBContext context;
+        try {
+            context = JAXBContext.newInstance(c.getClass());
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); // Formato legible
+            m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");      // Codificación
+            m.marshal(c, new File(filename));                      // Escritura en archivo
+            result = true;
+        } catch (JAXBException e) {
+            e.printStackTrace();
         }
-
-        /**
-         * Lee un objeto genérico desde un archivo XML y lo convierte en un objeto de la clase especificada.
-         * Utiliza JAXB para deserializar el contenido del archivo XML a un objeto de la clase indicada.
-         *
-         * @param c Una instancia del objeto que se desea deserializar, usada para obtener la clase.
-         * @param filename El nombre del archivo XML desde donde se leerá el objeto.
-         * @return El objeto deserializado del archivo XML. Si ocurre un error, retorna el objeto proporcionado.
-         */
-        public static <T> T readXML(T c, String filename) {
-            T result = c;
-            JAXBContext context;
-
-            try {
-                context = JAXBContext.newInstance(c.getClass());
-                Unmarshaller um = context.createUnmarshaller();
-                result = (T) um.unmarshal(new File(filename));
-            } catch (JAXBException e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
+        return result;
     }
 
+    /**
+     * Deserializa un archivo XML y convierte su contenido en un objeto Java.
+     * Usa JAXB para leer el archivo XML y crear una instancia del objeto con los datos.
+     *
+     * @param <T> El tipo del objeto a deserializar.
+     * @param c Una instancia vacía del tipo de objeto esperado (solo se usa para obtener su clase).
+     * @param filename Nombre del archivo XML desde donde se leerá el objeto.
+     * @return Una nueva instancia del objeto con los datos leídos del XML, o el objeto original si ocurre un error.
+     */
+    public static <T> T readXML(T c, String filename) {
+        T result = c;
+        JAXBContext context;
+        try {
+            context = JAXBContext.newInstance(c.getClass());
+            Unmarshaller um = context.createUnmarshaller();
+            result = (T) um.unmarshal(new File(filename));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+}

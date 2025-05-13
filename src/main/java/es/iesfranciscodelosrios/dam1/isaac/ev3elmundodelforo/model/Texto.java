@@ -21,12 +21,6 @@ public class Texto extends Contenido {
     @Override
 
     public String toString() {
-        return "Texto{" +
-                "texto='" + texto + '\'' +
-                ", id_contenido=" + getId_contenido() +
-                ", fecha=" + getFecha() +
-                ", id_usuario=" + getId_usuario() +
-                ", id_foro=" + getId_foro() +
-                '}';
+        return texto;
     }
 }

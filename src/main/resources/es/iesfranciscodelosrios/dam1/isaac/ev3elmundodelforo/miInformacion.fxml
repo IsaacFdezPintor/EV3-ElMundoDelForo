@@ -30,8 +30,6 @@
 
                     <Label text="Correo:" GridPane.rowIndex="2" />
                     <Label fx:id="labelCorreo" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-
-                    <Label text="Tipo de Usuario:" GridPane.rowIndex="3" />
                     <Label fx:id="labelTipoUsuario" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                 </children>
             <rowConstraints>

@@ -3,106 +3,117 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOForo;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Controlador de la pantalla para actualizar un foro ya creado por el usuario.
+ */
 public class ActulizarForoController {
 
-    @FXML
-    private ComboBox<Foro> ListaForos;  // ComboBox para seleccionar el foro
+    @FXML private ComboBox<Foro> listaForos;
+    @FXML private TextField nombreForo;
+    @FXML private TextArea descripcionActualizar;
+    @FXML private Label mensajeLabel;
+    @FXML private Button btnActualizarForo;
 
-    @FXML
-    private TextField nombreForoField;      // Campo de texto para el nombre del foro
-
-    @FXML
-    private TextArea descripcionField;      // TextArea para la descripción del foro
-
-    @FXML
-    private Button btnActualizarForo;       // Botón para actualizar el foro
-
-    @FXML
-    private Label mensajeLabel;             // Label para mostrar mensajes
-
-    private DAOForo daoForo;
-
-    // Este método se llama cuando se inicializa la vista FXML
-    public void initialize() {
-        daoForo = new DAOForo();
+    /**
+     * Método de inicialización que se ejecuta al cargar la vista.
+     * Configura la lista de foros y carga los foros del usuario actual.
+     *
+     * @throws SQLException si ocurre un error al acceder a la base de datos
+     */
+    public void initialize() throws SQLException {
+        configurarListaForos();
         cargarForos();
     }
 
-    // Método para cargar los foros en el ComboBox
-    private void cargarForos() {
-        try {
-            // Llamada al método findAll() para obtener los foros desde la base de datos
-            List<Foro> foros = daoForo.findAll();
-
-            // Crear una lista observable de foros para el ComboBox
-            ObservableList<Foro> forosObservableList = FXCollections.observableArrayList(foros);
-
-            // Configurar el ComboBox con la lista de foros
-            ListaForos.setItems(forosObservableList);
-
-            // Configurar cómo se deben mostrar los foros en el ComboBox
-            ListaForos.setCellFactory(lv -> new ListCell<Foro>() {
-                @Override
-                protected void updateItem(Foro item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                    } else {
-                        setText(item.getTitulo());  // Mostrar el título del foro en el ComboBox
-                    }
+    /**
+     * Configura la lista de foros para mostrar solo los títulos de los mismos.
+     */
+    private void configurarListaForos() {
+        listaForos.setCellFactory(lv -> new ListCell<Foro>() {
+            @Override
+            protected void updateItem(Foro item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getTitulo());
                 }
-            });
-
-            // Configurar cómo se debe mostrar el foro seleccionado
-            ListaForos.setButtonCell(new ListCell<Foro>() {
-                @Override
-                protected void updateItem(Foro item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                    } else {
-                        setText(item.getTitulo());  // Mostrar el título del foro en el botón del ComboBox
-                    }
-                }
-            });
-
-        } catch (SQLException e) {
-            mensajeLabel.setText("Error al cargar los foros: " + e.getMessage());
-        }
+            }
+        });
     }
 
-    // Método para actualizar el foro
-    @FXML
-    private void actualizarForo() {
-        // Obtener el foro seleccionado del ComboBox
-        Foro foroSeleccionado = ListaForos.getValue();
-        if (foroSeleccionado != null) {
-            // Obtener los nuevos valores para el nombre y descripción
-            String nombreForoNuevo = nombreForoField.getText();
-            String descripcionForoNuevo = descripcionField.getText();
+    /**
+     * Carga todos los foros creados por el usuario actual en la lista desplegable.
+     *
+     * @throws SQLException si ocurre un error al acceder a la base de datos
+     */
+    private void cargarForos() throws SQLException {
+        Usuario usuarioActual = SesionUsuario.getUsuario();
 
-            try {
-                // Llamada al método de actualización en el DAO (debes implementarlo en DAOForo)
-                SesionUsuario usuario = new SesionUsuario();
-                boolean actualizado = daoForo.update(foroSeleccionado,usuarioget );
-                if (actualizado) {
-                    mensajeLabel.setText("Foro actualizado correctamente.");
-                } else {
-                    mensajeLabel.setText("Error al actualizar el foro.");
-                }
-            } catch (SQLException e) {
-                mensajeLabel.setText("Error al actualizar el foro: " + e.getMessage());
-            }
+        if (usuarioActual == null) {
+            mensajeLabel.setText("No hay un usuario logueado.");
+            return;
+        }
+
+        DAOForo daoForo = new DAOForo();
+        List<Foro> foros = daoForo.findForosByID(usuarioActual.getId_Usuario());
+
+        listaForos.getItems().setAll(foros);
+    }
+
+    /**
+     * Método llamado cuando el usuario presiona el botón de actualizar foro.
+     * Actualiza el foro seleccionado con los nuevos datos (título y descripción).
+     *
+     * @throws SQLException si ocurre un error al intentar actualizar el foro en la base de datos
+     */
+    @FXML
+    private void actualizarForo() throws SQLException {
+        String titulo = nombreForo.getText().trim();  // Obtiene el título introducido
+        String descripcion = descripcionActualizar.getText().trim(); // Obtiene la descripción introducida
+
+        if (titulo.isEmpty() || descripcion.isEmpty()) {
+            mensajeLabel.setText("Todos los campos son obligatorios.");
+            return;
+        }
+
+        Usuario usuarioActual = SesionUsuario.getUsuario();
+
+       if (usuarioActual == null) {
+            mensajeLabel.setText("Error: No hay un usuario logueado.");
+            return;
+        }
+
+        Foro foroSeleccionado = listaForos.getSelectionModel().getSelectedItem();
+
+        if (foroSeleccionado == null) {
+            mensajeLabel.setText("Debe seleccionar un foro para actualizar.");
+            return;
+        }
+
+        Foro nuevoForo = new Foro();
+        nuevoForo.setTitulo(titulo);
+        nuevoForo.setDescripcion(descripcion);
+
+        DAOForo daoForo = new DAOForo();
+
+        boolean actualizado = daoForo.update(nuevoForo, foroSeleccionado, usuarioActual);
+
+        if (actualizado) {
+            mensajeLabel.setText("Foro actualizado con éxito.");
+
+            Stage stage = (Stage) btnActualizarForo.getScene().getWindow();
+            stage.close();
         } else {
-            mensajeLabel.setText("Por favor, selecciona un foro.");
+            mensajeLabel.setText("No se pudo actualizar el foro.");
         }
     }
 }

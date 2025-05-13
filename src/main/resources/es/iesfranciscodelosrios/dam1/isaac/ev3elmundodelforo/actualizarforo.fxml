@@ -18,13 +18,13 @@
     <ComboBox fx:id="listaForos" layoutY="110" prefHeight="30" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
 
     <!-- Campo de texto para escribir el nombre del foro -->
-    <TextField fx:id="nombreForoField" layoutY="160" prefHeight="30" promptText="Nombre del foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <TextField fx:id="nombreForo" layoutY="160" prefHeight="30" promptText="Nombre del foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
 
     <!-- TextArea para actualizar la descripción del foro -->
-    <TextArea fx:id="descripcionField" layoutY="210" prefHeight="100" promptText="Nueva descripción del foro" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <TextArea fx:id="descripcionActualizar" layoutY="210" prefHeight="100" promptText="Nueva descripción del foro" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
 
     <!-- Botón para guardar los cambios en el foro -->
-    <Button fx:id="btnActualizarForo" layoutY="330" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Actualizar Foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <Button fx:id="btnActualizarForo" onAction="#actualizarForo" layoutY="330" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Actualizar Foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
 
     <Label fx:id="mensajeLabel" layoutX="120.0" layoutY="390.0" prefHeight="17.0" prefWidth="368.0" style="-fx-text-fill: red;" text="" />
 

@@ -4,44 +4,38 @@ import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioComun
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioComun;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
 
+/**
+ * Controlador para la vista de registro de usuarios.
+ * Permite registrar tanto usuarios comunes como creadores,
+ * validando los campos de entrada y almacenando los datos en la base de datos.
+ */
 public class RegistrarControllers {
 
-    @FXML
-    private RadioButton radioCreador;
+    @FXML private RadioButton radioCreador;
+    @FXML private RadioButton radioComun;
+    @FXML private ToggleGroup grupoTipoUsuario;
+    @FXML private TextField nombreField;
+    @FXML private TextField apellidoField;
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private PasswordField confirmarPasswordField;
+    @FXML private Button botonRegistrar;
+    @FXML private Label mensajeLabel;
 
-    @FXML
-    private RadioButton radioComun;
-
-    @FXML
-    private ToggleGroup grupoTipoUsuario;
-
-    @FXML
-    private TextField nombreField;
-
-    @FXML
-    private TextField apellidoField;
-
-    @FXML
-    private TextField emailField;
-
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private PasswordField confirmarPasswordField;
-
-    @FXML
-    private Button botonRegistrar;
-
-    @FXML
-    private Label mensajeLabel;
-
+    /**
+     * Método invocado al hacer clic en el botón de registrar.
+     * Realiza las validaciones necesarias y registra el usuario
+     * si los datos son válidos y el correo no existe en la base de datos.
+     *
+     * @throws Exception si ocurre un error inesperado durante el proceso
+     */
     @FXML
     private void onRegistrarUsuario() {
         String nombre = nombreField.getText().trim();
@@ -49,12 +43,13 @@ public class RegistrarControllers {
         String email = emailField.getText().trim();
         String password = passwordField.getText();
         String confirmarPassword = confirmarPasswordField.getText();
-        String tipoUsuario =  "";
+
+        String tipoUsuario = "";
         if (radioCreador.isSelected()) {
             tipoUsuario = "Creador";
         } else if (radioComun.isSelected()) {
             tipoUsuario = "Comun";
-    }
+        }
 
         if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty()
                 || password.isEmpty() || confirmarPassword.isEmpty() || tipoUsuario.isEmpty()) {
@@ -67,30 +62,38 @@ public class RegistrarControllers {
             return;
         }
 
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+        if (!Utils.EmailValido(email)) {
             mensajeLabel.setText("Correo electrónico inválido.");
             return;
         }
 
+
         try {
+            boolean existe = false;
+
             if (tipoUsuario.equals("Creador")) {
                 DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
-                if (daoUsuarioCreador.existsByEmail(email)) {
-                    mensajeLabel.setText("Ya existe un usuario con ese correo.");
+                existe = daoUsuarioCreador.existsByEmail(email);
 
+                if (!existe) {
+                    UsuarioCreador creador = new UsuarioCreador(nombre, apellido, email, password, Date.valueOf(LocalDate.now()));
+                    daoUsuarioCreador.insert(creador);
                 }
-                UsuarioCreador creador = new UsuarioCreador(nombre, apellido, email, password, Date.valueOf(LocalDate.now()));
-                daoUsuarioCreador.insert(creador);
             } else {
                 DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
-                if (daoUsuarioComun.existsByEmail(email)) {
-                    mensajeLabel.setText("Ya existe un usuario con ese correo.");
+                existe = daoUsuarioComun.existsByEmail(email);
+
+                if (!existe) {
+                    UsuarioComun comun = new UsuarioComun(nombre, apellido, email, password, Date.valueOf(LocalDate.now()));
+                    daoUsuarioComun.insert(comun);
                 }
-                UsuarioComun comun = new UsuarioComun(nombre, apellido, email, password, Date.valueOf(LocalDate.now()));
-                daoUsuarioComun.insert(comun);
             }
 
-            mensajeLabel.setStyle("-fx-text-fill: green;");
+            if (existe) {
+                mensajeLabel.setText("Ya existe un usuario con ese correo.");
+                return;
+            }
+
             mensajeLabel.setText("Registro exitoso para " + nombre + " (" + tipoUsuario + ")");
 
         } catch (Exception e) {

@@ -47,8 +47,8 @@ public class CrearForoController {
             mensajeLabel.setText("Error: No hay un usuario logueado.");
             return;
         }
-
-        if (usuarioActual.getTipoUsuario().equals("Creador")) {
+        System.out.println(usuarioActual.getTipoUsuario());
+        if (usuarioActual.getTipoUsuario().equals("CREADOR")) {;
             UsuarioCreador creador = (UsuarioCreador) usuarioActual;
             creador.setNum_ForosCreados();
             DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();

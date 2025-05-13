@@ -70,6 +70,7 @@ public class RegistrarControllers {
                 if (!existe) {
                     UsuarioCreador creador = new UsuarioCreador(nombre, apellido, email, password);
                     daoUsuarioCreador.insert(creador);
+                    System.out.println(creador.getTipoUsuario());
                 }
             } else if (tipoUsuario.equalsIgnoreCase("Común")) {
                 DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();

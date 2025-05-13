@@ -24,6 +24,11 @@ public class UsuarioComun extends Usuario{
     }
 
     @Override
+    public String getTipoUsuario() {
+        return "COMUN";
+    }
+
+    @Override
     public String toString() {
         return "UsuarioComun{" +
                 "Contenido=" + getNombre() +

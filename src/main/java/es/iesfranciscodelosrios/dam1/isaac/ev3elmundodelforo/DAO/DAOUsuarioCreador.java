@@ -40,7 +40,7 @@ public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
                 pst.setString(3, usuario.getEmail());
                 pst.setString(4, usuario.getPassword());
                 pst.setDate(5, usuario.getFechaDeRegistro());
-                pst.setString(6, "CREADOR");
+                pst.setString(6, usuario.getTipoUsuario());
                 pst.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);

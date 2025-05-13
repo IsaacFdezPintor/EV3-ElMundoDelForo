@@ -16,6 +16,12 @@ public class UsuarioCreador extends Usuario{
     public int getNum_ForosCreados() {
         return Num_ForosCreados;
     }
+
+    @Override
+    public String getTipoUsuario() {
+        return "CREADOR";
+    }
+
     public void setNum_ForosCreados() {
         Num_ForosCreados = Num_ForosCreados + 1;
     }

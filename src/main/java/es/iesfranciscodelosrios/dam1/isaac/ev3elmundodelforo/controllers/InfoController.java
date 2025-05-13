@@ -1,47 +1,125 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioComun;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCreador;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioComun;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils.ViewUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class InfoController  {
+    public class InfoController implements Initializable {
 
-    @FXML
-    private Label labelNombre;
+        @FXML
+        private Label labelNombre;
 
-    @FXML
-    private Label labelApellido;
+        @FXML
+        private Label labelApellido;
 
-    @FXML
-    private Label labelCorreo;
+        @FXML
+        private Label labelCorreo;
 
-    @FXML
-    private Label labelTipoUsuario;
 
-    public void initialize() {
+        @FXML
+        private Label labelTipoUsuario;
 
-        Usuario usuario = SesionUsuario.getUsuario();
+        @FXML
+        private Button btnEliminar;
 
-        if (usuario != null) {
-            labelNombre.setText(usuario.getNombre());
-            labelApellido.setText(usuario.getApellidos());
-            labelCorreo.setText(usuario.getEmail());
-        } else {
-            labelNombre.setText("Usuario no encontrado");
+        @FXML
+        private Label mensajeAlerta;
+
+        @Override
+        public void initialize(URL location, ResourceBundle resources) {
+            // Comprobamos si el usuario está logueado
+            Usuario usuario = SesionUsuario.getUsuario();
+
+            if (usuario != null) {
+                labelNombre.setText(usuario.getNombre());
+                labelApellido.setText(usuario.getApellidos());
+                labelCorreo.setText(usuario.getEmail());
+                labelTipoUsuario.setText(usuario.getTipoUsuario());  // Mostrar el tipo de usuario (COMUN/CREADOR)
+            } else {
+                labelNombre.setText("Usuario no encontrado");
+                labelApellido.setText("");
+                labelCorreo.setText("");
+                labelTipoUsuario.setText("");
+            }
+        }
+
+        @FXML
+        public void actualizarUsuario(ActionEvent actionEvent) throws IOException {
+            // Abrir la ventana para actualizar el usuario
+            ViewUtils.abrirNuevaVentanaFija("actualizarUsuario.fxml", "Actualizar Usuario");
+        }
+
+        @FXML
+        public void eliminarUsuario(ActionEvent event) {
+            // Obtener el usuario de la sesión
+            Usuario usuario = SesionUsuario.getUsuario();
+
+            // Verificar si el usuario está en sesión
+            if (usuario == null) {
+                mensajeAlerta.setText("No hay ningún usuario logeado.");
+                return;
+            }
+
+            // Dependiendo del tipo de usuario, realizamos la eliminación
+            if (usuario.getTipoUsuario().equals("COMUN")) {
+                DAOUsuarioComun dao = new DAOUsuarioComun();
+                try {
+                    boolean eliminado = dao.delete((UsuarioComun) usuario);
+                    if (eliminado) {
+                        // Si el usuario fue eliminado, cerramos sesión y redirigimos al login
+                        SesionUsuario.cerrarSesion();
+                        cerrarVentanasYAbrirLogin();
+                    } else {
+                        mensajeAlerta.setText("No se pudo eliminar el usuario.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mensajeAlerta.setText("Error al intentar eliminar el usuario.");
+                }
+            } else if (usuario.getTipoUsuario().equals("CREADOR")) {
+                DAOUsuarioCreador dao = new DAOUsuarioCreador();
+                try {
+                    boolean eliminado = dao.delete((UsuarioCreador) usuario);
+                    if (eliminado) {
+                        // Si el usuario fue eliminado, cerramos sesión y redirigimos al login
+                        SesionUsuario.cerrarSesion();
+                        cerrarVentanasYAbrirLogin();
+                    } else {
+                        mensajeAlerta.setText("No se pudo eliminar el usuario creador.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mensajeAlerta.setText("Error al intentar eliminar el usuario creador.");
+                }
+            } else {
+                mensajeAlerta.setText("Tipo de usuario desconocido.");
+            }
+        }
+
+        private void cerrarVentanasYAbrirLogin() {
+            try {
+                // Cerrar todas las ventanas (excepto la ventana de login)
+                Stage currentStage = (Stage) btnEliminar.getScene().getWindow();
+                currentStage.close();
+                currentStage.close();
+                ViewUtils.abrirNuevaVentanaFija("login.fxml", "Login");
+            } catch (IOException e) {
+                e.printStackTrace();
+                mensajeAlerta.setText("No se pudo abrir la ventana de login.");
+            }
         }
     }
-
-    @FXML
-    public void actualizarUsuario(ActionEvent actionEvent) throws IOException {
-        ViewUtils.abrirNuevaVentanaFija("actualizarUsuario.fxml", "Actualizar Usuario");
-    }
-}
-

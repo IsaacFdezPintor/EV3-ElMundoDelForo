@@ -5,9 +5,12 @@ import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioCread
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioComun;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils.Utils;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils.ViewUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -56,7 +59,11 @@ public class RegistrarControllers {
 
         if (!Utils.EmailValido(email)) {
             mensajeLabel.setText("Correo electrónico inválido.");
-            System.out.println(Utils.EmailValido(email));
+            return;
+        }
+
+        if (!Utils.ContraseñaValida(password)) {
+            mensajeLabel.setText("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.");
             return;
         }
 
@@ -70,7 +77,10 @@ public class RegistrarControllers {
                 if (!existe) {
                     UsuarioCreador creador = new UsuarioCreador(nombre, apellido, email, password);
                     daoUsuarioCreador.insert(creador);
-                    System.out.println(creador.getTipoUsuario());
+
+                        Stage currentStage = (Stage) botonRegistrar.getScene().getWindow();
+                        currentStage.close();
+
                 }
             } else if (tipoUsuario.equalsIgnoreCase("Común")) {
                 DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
@@ -79,6 +89,8 @@ public class RegistrarControllers {
                 if (!existe) {
                     UsuarioComun comun = new UsuarioComun(nombre, apellido, email, password);
                     daoUsuarioComun.insert(comun);
+                    Stage currentStage = (Stage) botonRegistrar.getScene().getWindow();
+                    currentStage.close();
                 }
             } else {
                 mensajeLabel.setText("Tipo de usuario no válido.");
@@ -89,10 +101,12 @@ public class RegistrarControllers {
                 mensajeLabel.setText("Ya existe un usuario con ese correo.");
             } else {
                 mensajeLabel.setText("Registro exitoso para " + nombre + " (" + tipoUsuario + ")");
+
             }
 
         } catch (Exception e) {
             mensajeLabel.setText("Error al registrar el usuario: " + e.getMessage());
         }
     }
+
 }

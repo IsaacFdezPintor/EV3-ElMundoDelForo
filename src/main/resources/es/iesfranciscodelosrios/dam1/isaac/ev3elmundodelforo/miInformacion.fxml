@@ -30,21 +30,27 @@
 
                     <Label text="Correo:" GridPane.rowIndex="2" />
                     <Label fx:id="labelCorreo" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+                    <Label text="Tipo:" GridPane.rowIndex="3" />
                     <Label fx:id="labelTipoUsuario" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                 </children>
-            <rowConstraints>
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-            </rowConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
             </GridPane>
+
 
             <!-- Botones -->
             <HBox spacing="10">
-                <Button style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-background-radius: 5;" text="Actualizar" onAction="#actualizarUsuario"/>
-                <Button style="-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-background-radius: 5;" text="Cerrar" />
+                <Button fx:id="btnActualizar" style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-background-radius: 5;" text="Actualizar" onAction="#actualizarUsuario"/>
+                <Button fx:id="btnEliminar" style="-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-background-radius: 5;" text="Eliminar Usuario" onAction="#eliminarUsuario"/>
             </HBox>
+
+            <Label fx:id="mensajeAlerta" text="" style="-fx-text-fill: red;" />
+
         </children>
         <padding>
             <Insets bottom="20" left="20" right="20" top="20" />

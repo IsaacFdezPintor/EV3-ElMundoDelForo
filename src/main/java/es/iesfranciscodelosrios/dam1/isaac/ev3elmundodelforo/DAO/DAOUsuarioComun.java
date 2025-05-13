@@ -55,20 +55,32 @@ public class DAOUsuarioComun implements IGenericDAO<UsuarioComun> {
         return result;
     }
     @Override
-    public boolean delete (UsuarioComun usuario) throws SQLException {
+
+    public boolean delete(UsuarioComun usuario) throws SQLException {
         boolean deleted = false;
-            if ((usuario!=null)&&findByCorreo(usuario.getEmail())==null){
-                try(PreparedStatement pst= ConnectionBD.getConnection().prepareStatement(DELETE_USUARIO_COMUN)){
+
+        // Verificar si el usuario no es nulo y existe en la base de datos
+        if (usuario != null) {
+            try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(DELETE_USUARIO_COMUN)) {
+                // Suponiendo que 'DELETE_USUARIO_COMUN' tiene una sentencia SQL como: "DELETE FROM usuarios_comun WHERE email = ?"
                 pst.setString(1, usuario.getEmail());
-                pst.executeUpdate();
-                deleted = true;
-            } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                int rowsAffected = pst.executeUpdate();
+
+                // Si rowsAffected es mayor a 0, significa que la eliminación fue exitosa
+                if (rowsAffected > 0) {
+                    deleted = true;
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();  // Es importante registrar la excepción para diagnosticar problemas
+                throw new SQLException("Error al intentar eliminar el usuario: " + e.getMessage());
+            }
+        } else {
+            System.out.println("El usuario es nulo, no se puede eliminar.");
         }
         return deleted;
     }
-    
+
+
     @Override
     public UsuarioComun findByCorreo(String email) throws SQLException {
 

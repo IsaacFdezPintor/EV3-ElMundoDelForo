@@ -16,7 +16,6 @@ import java.sql.SQLException;
 
 public class ActualizarUsuarioController {
 
-    // FXML Components
     @FXML
     private TextField nombreField;
     @FXML
@@ -32,90 +31,62 @@ public class ActualizarUsuarioController {
     @FXML
     private Label mensajeLabel;
 
-    private Usuario usuarioActual; // Usuario actual (el que está siendo actualizado)
+    private Usuario usuarioActual;
 
-    // Método que se llama cuando se presiona el botón de "Actualizar"
     @FXML
     private void onActualizarUsuario(ActionEvent event) {
-        // Obtener los valores de los campos
         String nombre = nombreField.getText().trim();
         String apellido = apellidoField.getText().trim();
-        String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
         String confirmarPassword = confirmarPasswordField.getText().trim();
 
-        // Validar que todos los campos obligatorios están completos
-        if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() ) {
-            mensajeLabel.setText("Todos los campos son obligatorios.");
+        if (nombre.isEmpty() || apellido.isEmpty()) {
+            mensajeLabel.setText("Nombre y Apellido son obligatorios.");
             return;
         }
 
-        // Validar que las contraseñas coinciden
         if (!password.isEmpty() && !password.equals(confirmarPassword)) {
             mensajeLabel.setText("Las contraseñas no coinciden.");
             return;
         }
 
-        // Lógica para actualizar el usuario según el tipo
-        if (usuarioActual.getTipoUsuario().equals("Común")) {
-            UsuarioComun usuarioNuevo = new UsuarioComun(nombre, apellido, email, password) ;
-            // Llama al método para actualizar el usuario común
-            DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
-            try {
-                boolean success = daoUsuarioComun.update(usuarioNuevo, (UsuarioComun) usuarioActual);
-                if (success) {
-                    mensajeLabel.setText("Usuario común actualizado con éxito.");
-                } else {
-                    mensajeLabel.setText("Error al actualizar el usuario común.");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                mensajeLabel.setText("Error al actualizar el usuario.");
+        // Si no se quiere cambiar la contraseña, usamos la anterior
+        String nuevaPassword = password.isEmpty() ? usuarioActual.getPassword() : password;
+
+        try {
+            if (usuarioActual instanceof UsuarioComun) {
+                UsuarioComun actualizado = new UsuarioComun(nombre, apellido, usuarioActual.getEmail(), nuevaPassword);
+                DAOUsuarioComun dao = new DAOUsuarioComun();
+                boolean success = dao.update(actualizado, (UsuarioComun) usuarioActual);
+                mensajeLabel.setText(success ? "Usuario común actualizado con éxito." : "Error al actualizar usuario común.");
+            } else if (usuarioActual instanceof UsuarioCreador) {
+                UsuarioCreador actualizado = new UsuarioCreador(nombre, apellido, usuarioActual.getEmail(), nuevaPassword);
+                DAOUsuarioCreador dao = new DAOUsuarioCreador();
+                boolean success = dao.update(actualizado, (UsuarioCreador) usuarioActual);
+                mensajeLabel.setText(success ? "Usuario creador actualizado con éxito." : "Error al actualizar usuario creador.");
+            } else {
+                mensajeLabel.setText("Tipo de usuario no válido.");
             }
-        } else if (usuarioActual.getTipoUsuario().equals("Creador")) {
-            UsuarioCreador usuarioNuevo = new UsuarioCreador(nombre, apellido, email, password);
-            // Llama al método para actualizar el usuario creador
-            DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
-            try {
-                boolean success = daoUsuarioCreador.update(usuarioNuevo, (UsuarioCreador) usuarioActual);
-                if (success) {
-                    mensajeLabel.setText("Usuario creador actualizado con éxito.");
-                } else {
-                    mensajeLabel.setText("Error al actualizar el usuario creador.");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                mensajeLabel.setText("Error al actualizar el usuario.");
-            }
-        } else {
-            mensajeLabel.setText("Tipo de usuario no válido.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            mensajeLabel.setText("Error al actualizar el usuario.");
         }
     }
 
-    // Método para inicializar el controlador con el usuario actual (debe ser llamado al cargar la vista)
     public void initData(Usuario usuario) {
         this.usuarioActual = usuario;
 
-        // Completar los campos con los datos del usuario actual
+        nombreField.setText(usuario.getNombre());
+        apellidoField.setText(usuario.getApellidos());
+        emailField.setText(usuario.getEmail());
+        emailField.setEditable(false); // El email no debe cambiar
+        passwordField.setText(""); // Campo vacío para evitar mostrar contraseña
+        confirmarPasswordField.setText("");
+
         if (usuario instanceof UsuarioComun) {
-            UsuarioComun usuarioComun = (UsuarioComun) usuario;
-            nombreField.setText(usuarioComun.getNombre());
-            apellidoField.setText(usuarioComun.getApellidos());
-            emailField.setText(usuarioComun.getEmail());
-            passwordField.setText("");  // Dejar vacío para que el usuario pueda cambiarla
-            confirmarPasswordField.setText("");  // Dejar vacío para que el usuario pueda cambiarla
             comboTipoUsuario.getSelectionModel().select("Común");
         } else if (usuario instanceof UsuarioCreador) {
-            UsuarioCreador usuarioCreador = (UsuarioCreador) usuario;
-            nombreField.setText(usuarioCreador.getNombre());
-            apellidoField.setText(usuarioCreador.getApellidos());
-            emailField.setText(usuarioCreador.getEmail());
-            passwordField.setText("");  // Dejar vacío para que el usuario pueda cambiarla
-            confirmarPasswordField.setText("");  // Dejar vacío para que el usuario pueda cambiarla
             comboTipoUsuario.getSelectionModel().select("Creador");
         }
-
-        // Deshabilitar el campo de email porque no se debe cambiar
-        emailField.setEditable(false);
     }
 }

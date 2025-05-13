@@ -44,7 +44,7 @@ public class Utils {
     public static boolean ContraseñaValida(String contraseña) {
         // Expresión regular que valida los criterios de seguridad de la contraseña.
         // Información extraída de la página https://es.stackoverflow.com/questions/4300/expresiones-regulares-para-contrase%C3%B1a-en-base-a-una-politica
-        String regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,15}/";
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,15}$";
 
         // Verifica si la contraseña no es nula y si coincide con la expresión regular
         return contraseña != null && contraseña.matches(regex);

@@ -41,10 +41,12 @@ public class UsuarioTest {
         adminDAO.insert(admin);
         System.out.println(adminDAO.check(admin.getEmail(), admin.getPassword()));
         System.out.println(admin.getTipoUsuario());
-        /*UsuarioComun comun = new UsuarioComun("Comun", "Luis", "comun@gmail.com", "1234");
+        System.out.println(adminDAO.delete(admin));*/
+        UsuarioComun comun = new UsuarioComun("Comun", "Luis", "comun@gmail.com", "1234");
         DAOUsuarioComun comunDAO = new DAOUsuarioComun();
         comunDAO.insert(comun);
-        System.out.println(comunDAO.check(comun.getEmail(), comun.getPassword()));*/
+        System.out.println(comunDAO.check(comun.getEmail(), comun.getPassword()));
+        System.out.println(comunDAO.delete(comun));
 
         /*Foro foroBaseDatos = new Foro();
         foroBaseDatos.setTitulo("Foro de Base de Datos");
@@ -52,6 +54,8 @@ public class UsuarioTest {
         foroBaseDatos.setId_creador(3);
         DAOForo daoForo = new DAOForo();
         daoForo.insert(foroBaseDatos, admin);/* No funciona pq hay q estar logeado*/
+
+
 
 
     }

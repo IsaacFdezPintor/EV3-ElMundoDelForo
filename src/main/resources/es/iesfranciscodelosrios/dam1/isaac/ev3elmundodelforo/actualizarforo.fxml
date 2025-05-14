@@ -6,28 +6,48 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<AnchorPane fx:id="actualizarForoPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ActulizarForoController">
+<AnchorPane fx:id="actualizarForoPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #e9ecf1;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ActulizarForoController">
 
-    <Text fill="#333333" layoutX="180.0" layoutY="54.0" text="Actualizar Foro" textAlignment="CENTER">
-        <font>
-            <Font name="Cooper Black" size="28.0" />
-        </font>
-    </Text>
+    <VBox alignment="CENTER" spacing="20"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
-    <!-- ComboBox para seleccionar el foro a actualizar -->
-    <ComboBox fx:id="listaForos" layoutY="110" prefHeight="30" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
+        <Region fx:id="spacerTop" VBox.vgrow="ALWAYS"/>
 
-    <!-- Campo de texto para escribir el nombre del foro -->
-    <TextField fx:id="nombreForo" layoutY="160" prefHeight="30" promptText="Nombre del foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+        <VBox alignment="CENTER" spacing="15" maxWidth="400"
+              style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 4);">
 
-    <!-- TextArea para actualizar la descripción del foro -->
-    <TextArea fx:id="descripcionActualizar" layoutY="210" prefHeight="100" promptText="Nueva descripción del foro" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+            <!-- Título -->
+            <Label text="Actualizar Foro"
+                   style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 24px; -fx-text-fill: #2E3A59;" />
 
-    <!-- Botón para guardar los cambios en el foro -->
-    <Button fx:id="btnActualizarForo" onAction="#actualizarForo" layoutY="330" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Actualizar Foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+            <!-- ComboBox para seleccionar el foro a actualizar -->
+            <ComboBox fx:id="listaForos" prefHeight="40" style="-fx-font-size: 14px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #bbb;" />
 
-    <Label fx:id="mensajeLabel" layoutX="120.0" layoutY="390.0" prefHeight="17.0" prefWidth="368.0" style="-fx-text-fill: red;" text="" />
+            <!-- Campo de texto para el nombre del foro -->
+            <TextField fx:id="nombreForo"
+                       promptText="Nombre del foro"
+                       style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #bbb;" />
 
+            <!-- Campo de texto para actualizar la descripción del foro -->
+            <TextArea fx:id="descripcionActualizar"
+                      promptText="Nueva descripción del foro"
+                      wrapText="true"
+                      style="-fx-pref-height: 100; -fx-font-size: 14px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #bbb;" />
+
+            <!-- Botón de actualizar foro -->
+            <Button fx:id="btnActualizarForo"
+                    onAction="#actualizarForo"
+                    text="Actualizar Foro"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 15px; -fx-pref-height: 40; -fx-background-radius: 6;" />
+
+            <!-- Mensaje de error -->
+            <Label fx:id="mensajeLabel"
+                   wrapText="true"
+                   style="-fx-text-fill: #E74C3C; -fx-font-size: 12px;" />
+
+        </VBox>
+
+        <Region fx:id="spacerBottom" VBox.vgrow="ALWAYS"/>
+    </VBox>
 </AnchorPane>
-
-

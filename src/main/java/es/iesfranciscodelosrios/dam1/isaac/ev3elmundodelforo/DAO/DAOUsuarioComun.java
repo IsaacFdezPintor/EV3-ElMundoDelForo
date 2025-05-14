@@ -235,7 +235,7 @@ public class DAOUsuarioComun implements IGenericDAO<UsuarioComun> {
      * @return El número de comentarios del usuario.
      * @throws SQLException Si ocurre un error con la base de datos.
      */
-    public  int obtenerNumeroComentarios(UsuarioComun usuarioComun) throws SQLException {
+    public  int obtenerNumeroComentarios(Usuario usuarioComun) throws SQLException {
         Connection con = ConnectionBD.getConnection();
         try (PreparedStatement pst = con.prepareStatement(SELECT_COMENTARIOS)) {
             pst.setInt(1, usuarioComun.getId_Usuario());
@@ -257,19 +257,30 @@ public class DAOUsuarioComun implements IGenericDAO<UsuarioComun> {
      * @return true si la actualización fue exitosa, false si no lo fue.
      * @throws SQLException Si ocurre un error con la base de datos.
      */
-    public boolean updateParticipacion(UsuarioComun usuarioComun, Participacion participacion) throws SQLException {
+    public boolean updateParticipacion(UsuarioComun usuarioComun, Participacion participacion) {
         boolean updated = false;
-        Connection con = ConnectionBD.getConnection();
-        try (PreparedStatement pst = con.prepareStatement(UPDATE_PARTICIPACION)) {
+
+        try (Connection con = ConnectionBD.getConnection();
+             PreparedStatement pst = con.prepareStatement(UPDATE_PARTICIPACION)) {
+
+            // Establecer los parámetros
             pst.setString(1, participacion.toString());
             pst.setInt(2, usuarioComun.getId_Usuario());
-            pst.executeUpdate();
-            updated = true;
+
+            // Ejecutar la actualización y verificar el número de filas afectadas
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                updated = true; // Se actualizó al menos una fila
+            }
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // Log de error o manejo personalizado de excepciones
+            System.err.println("Error al actualizar la participación: " + e.getMessage());
         }
+
         return updated;
     }
+
 
     /**
      * Obtiene el nivel de participación de un usuario de tipo Comun.
@@ -278,16 +289,26 @@ public class DAOUsuarioComun implements IGenericDAO<UsuarioComun> {
      * @return El nivel de participación del usuario.
      * @throws SQLException Si ocurre un error con la base de datos.
      */
-    public String obtenerParticipacion (Usuario usuarioComun) throws SQLException {
-        Connection con = ConnectionBD.getConnection();
-        try (PreparedStatement pst = con.prepareStatement(SELECT_PARTICIPACION)) {
+    public String obtenerParticipacion(Usuario usuarioComun) {
+        String nivelParticipacion = null;
+        try (Connection con = ConnectionBD.getConnection();
+             PreparedStatement pst = con.prepareStatement(SELECT_PARTICIPACION)) {
+
+            // Establecer el parámetro de la consulta
             pst.setInt(1, usuarioComun.getId_Usuario());
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                return rs.getString("nivel_participacion");
-            } else {
-                return null;
+
+            // Ejecutar la consulta y obtener el resultado
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    nivelParticipacion = rs.getString("nivel_participacion");
+                }
             }
+        } catch (SQLException e) {
+            // Podrías registrar el error o manejarlo según convenga
+            System.err.println("Error al obtener la participación del usuario: " + e.getMessage());
         }
+
+        return nivelParticipacion; // Retorna null si no se encuentra el registro
     }
+
 }

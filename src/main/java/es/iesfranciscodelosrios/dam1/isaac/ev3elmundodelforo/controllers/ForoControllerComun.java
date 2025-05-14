@@ -115,22 +115,24 @@ public class ForoControllerComun {
         DAOTexto daoTexto = new DAOTexto();
         boolean comentarioPublicado = daoTexto.insert(usuarioActual, foroSeleccionado, nuevoComentario);
 
-        // Volver a cargar la lista de comentarios del foro seleccionado
         List<Texto> comentariosActualizados = daoTexto.findAllByForoId(foroSeleccionado.getId_foro());
         listaComentarios.setItems(FXCollections.observableArrayList(comentariosActualizados));
         DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
         UsuarioComun comun = (UsuarioComun) usuarioActual;
         comun.incrementarNum_Comentarios();
-        daoUsuarioComun.updateNumComentarios(comun);
+        int numComentarios = daoUsuarioComun.obtenerNumeroComentarios(comun);
 
-        if (daoUsuarioComun.obtenerNumeroComentarios(comun) > 5) {
+
+        if (numComentarios < 5) {
             daoUsuarioComun.updateParticipacion(comun, Participacion.BAJA);
             return;
-        } else if (daoUsuarioComun.obtenerNumeroComentarios(comun) > 10) {
+        } else if (numComentarios < 20) {
             daoUsuarioComun.updateParticipacion(comun, Participacion.MEDIA);
+
             return;
-        } else if (daoUsuarioComun.obtenerNumeroComentarios(comun) > 20) {
+        } else if (numComentarios > 20) {
             daoUsuarioComun.updateParticipacion(comun, Participacion.ALTA);
+
             return;
         }
 

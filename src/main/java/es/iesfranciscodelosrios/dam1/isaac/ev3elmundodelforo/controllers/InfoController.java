@@ -57,11 +57,6 @@ import java.util.ResourceBundle;
             }
         }
 
-        @FXML
-        public void actualizarUsuario(ActionEvent actionEvent) throws IOException {
-            // Abrir la ventana para actualizar el usuario
-            ViewUtils.abrirNuevaVentanaFija("actualizarUsuario.fxml", "Actualizar Usuario");
-        }
 
         @FXML
         public void eliminarUsuario(ActionEvent event) {

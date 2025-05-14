@@ -55,11 +55,7 @@ public class InfoControllerComun implements Initializable {
             labelApellido.setText(usuario.getApellidos());
             labelCorreo.setText(usuario.getEmail());
             labelTipoUsuario.setText(usuario.getTipoUsuario());  // Mostrar el tipo de usuario (COMUN/CREADOR)
-            try {
-                labelParticipacion.setText (daoUsuarioComun.obtenerParticipacion(usuario));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            labelParticipacion.setText (daoUsuarioComun.obtenerParticipacion(usuario));
         } else {
             labelNombre.setText("Usuario no encontrado");
             labelApellido.setText("");

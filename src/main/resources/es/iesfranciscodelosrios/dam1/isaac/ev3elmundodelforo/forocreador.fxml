@@ -1,8 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/12"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:id="rootPane"
             fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ForoControllerCreador"
-            prefWidth="1200" prefHeight="800"> <!-- Aumenta el tamaño del contenedor principal -->
+            prefWidth="1200" prefHeight="800">
 
     <!-- Cabecera -->
     <HBox spacing="20" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
@@ -46,35 +52,32 @@
 
             <!-- Área central -->
             <VBox spacing="20" HBox.hgrow="ALWAYS">
+                <style>
+                    -fx-background-color: white;
+                    -fx-padding: 20;
+                    -fx-border-color: #CFD8DC;
+                    -fx-border-radius: 8;
+                </style>
                 <children>
-                    <!-- Detalles y Comentarios -->
-                    <VBox spacing="20">
-                        <style>
-                            -fx-background-color: white;
-                            -fx-padding: 20;
-                            -fx-border-color: #CFD8DC;
-                            -fx-border-radius: 8;
-                        </style>
+                    <Label fx:id="labelDescripcionForo" text="Descripción:" wrapText="true" style="-fx-font-size: 18px;" />
+                    <Label fx:id="labelCreadorForo" text="Creador:" style="-fx-font-size: 18px;" />
+                    <!-- Label para mensajes de alerta -->
+                    <Label fx:id="mensajeAlerta"  style="-fx-font-size: 18px; -fx-text-fill: red;" />
+
+                    <HBox spacing="10">
                         <children>
-                            <Label text="Comentarios" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
-                            <ListView fx:id="listaComentarios"
-                                      style="-fx-background-color: #F9FAFB; -fx-border-color: #B0BEC5; -fx-border-radius: 8;" />
-
-                            <VBox spacing="15">
-                                <children>
-                                    <Label fx:id="labelDescripcionForo" text="Descripción:" wrapText="true" style="-fx-font-size: 18px;" />
-                                    <Label fx:id="labelCreadorForo" text="Creador:" style="-fx-font-size: 18px;" />
-                                </children>
-                            </VBox>
-
-                            <Label fx:id="mensajeAlerta" style="-fx-text-fill: red; -fx-font-size: 18px;" />
-
-                            <TextArea fx:id="campoComentario" promptText="Escribe tu comentario..." wrapText="true"
-                                      style="-fx-background-color: #F9FAFB; -fx-border-color: #B0BEC5; -fx-border-radius: 8; -fx-font-size: 18px;" />
-                            <Button fx:id="btnPublicarComentario" text="Publicar" onAction="#PublicarComentario"
+                            <Button fx:id="btnAnadirForo" text="Añadir Foro" onAction="#anadirNuevoForo"
                                     style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-size: 18px;" />
+                            <Button fx:id="btnActualizarForo" text="Actualizar Foro" onAction="#actualizarForo"
+                                    style="-fx-background-color: #F39C12; -fx-text-fill: white; -fx-font-size: 18px;" />
+                            <Button fx:id="btnEliminarForo" text="Eliminar Foro" onAction="#eliminarItemSeleccionado"
+                                    style="-fx-background-color: #C0392B; -fx-text-fill: white; -fx-font-size: 18px;" />
                         </children>
-                    </VBox>
+                    </HBox>
+
+                    <!-- Listado de comentarios -->
+                    <Label text="Comentarios" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                    <ListView fx:id="listaComentarios" style="-fx-background-color: white; -fx-border-color: #B0BEC5; -fx-border-radius: 8;" />
                 </children>
             </VBox>
         </children>

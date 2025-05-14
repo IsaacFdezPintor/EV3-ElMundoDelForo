@@ -4,7 +4,7 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 // Representa un usuario de tipo "COMUN" que tiene un número de comentarios y un nivel de participación.
 public class UsuarioComun extends Usuario {
 
-    private int num_Comentarios = 0;
+    private static int num_Comentarios = 0;
 
     private Participacion nivel_Participacion;
 

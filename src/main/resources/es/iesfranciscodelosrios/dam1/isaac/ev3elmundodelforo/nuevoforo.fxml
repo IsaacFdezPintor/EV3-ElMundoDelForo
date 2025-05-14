@@ -1,23 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="crearForoPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.CrearForoController">
+<AnchorPane fx:id="crearForoPane"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.CrearForoController"
+            style="-fx-background-color: linear-gradient(to bottom, #e9ecf1, #cfd8dc);"
+            prefHeight="450.0" prefWidth="600.0">
 
-    <Text fill="#333333" layoutX="180.0" layoutY="54.0" text="Crear Nuevo Foro" textAlignment="CENTER">
-        <font>
-            <Font name="Cooper Black" size="28.0" />
-        </font>
-    </Text>
+    <VBox alignment="CENTER" spacing="20"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
-    <TextField fx:id="tituloField" layoutY="110" prefHeight="30" promptText="Título del foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+        <Region fx:id="spacerTop" VBox.vgrow="ALWAYS"/>
 
-    <TextArea fx:id="descripcionField" layoutY="160" prefHeight="100" promptText="Descripción del foro" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+        <VBox alignment="CENTER" spacing="15" maxWidth="400"
+              style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 4);">
 
-    <Button fx:id="btnCrearForo"  onAction="#crearForo" layoutY="330"  prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Crear Foro" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+            <!-- Título -->
+            <Label text="Crear Nuevo Foro"
+                   style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 24px; -fx-text-fill: #2E3A59;" />
 
-    <Label fx:id="mensajeLabel" layoutX="120.0" layoutY="390.0" prefHeight="17.0" prefWidth="368.0" style="-fx-text-fill: red;" text="" />
+            <!-- Campo de título -->
+            <TextField fx:id="tituloField"
+                       promptText="Título del foro"
+                       maxWidth="Infinity"
+                       style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #bbb;" />
 
+            <!-- Campo de descripción -->
+            <TextArea fx:id="descripcionField"
+                      promptText="Descripción del foro"
+                      wrapText="true"
+                      maxWidth="Infinity"
+                      style="-fx-pref-height: 100; -fx-font-size: 14px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #bbb;" />
+
+            <!-- Botón de crear foro -->
+            <Button fx:id="btnCrearForo"
+                    onAction="#crearForo"
+                    text="Crear Foro"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 15px; -fx-pref-height: 40; -fx-background-radius: 6;" />
+
+            <!-- Mensaje de error -->
+            <Label fx:id="mensajeLabel"
+                   wrapText="true"
+                   style="-fx-text-fill: #E74C3C; -fx-font-size: 12px;" />
+
+        </VBox>
+
+        <Region fx:id="spacerBottom" VBox.vgrow="ALWAYS"/>
+    </VBox>
 </AnchorPane>

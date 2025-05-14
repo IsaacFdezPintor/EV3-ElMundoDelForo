@@ -15,7 +15,7 @@ import java.util.List;
 public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
 
     private final static String INSERT_USUARIO_CREADOR = "INSERT INTO creador (nombre, apellidos, email, password, fecha_registro, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?)";
-    private final static String UPDATE_USUARIO_CREADOR = "UPDATE creador SET nombre = ?, apellidos = ?, password = ? WHERE email = ?";
+    private final static String UPDATE_USUARIO_CREADOR = "UPDATE creador SET nombre = ?, apellidos = ?, email = ?, password = ? WHERE id = ?";
     private final static String DELETE_USUARIO_CREADOR = "DELETE FROM creador WHERE email = ? AND tipo_usuario = 'CREADOR'";
     private final static String FIND_BY_CORREO = "SELECT * FROM creador WHERE email = ? AND tipo_usuario = 'CREADOR'";
     private final static String FIND_ALL = "SELECT * FROM creador WHERE tipo_usuario = 'CREADOR'";
@@ -64,12 +64,16 @@ public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
             try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(UPDATE_USUARIO_CREADOR)) {
                 pst.setString(1, usuarioNuevo.getNombre());
                 pst.setString(2, usuarioNuevo.getApellidos());
-                pst.setString(3, usuarioNuevo.getPassword());
-                pst.setString(4, usuarioActual.getEmail());
-                pst.executeUpdate();
-                result = true;
+                pst.setString(3, usuarioNuevo.getEmail());
+                pst.setString(4, usuarioNuevo.getPassword());
+                pst.setInt(5, usuarioActual.getId_Usuario());
+
+                int filasAfectadas = pst.executeUpdate();
+
+                result = filasAfectadas > 0;
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                throw new SQLException("Error al actualizar el usuario", e);
             }
         }
         return result;
@@ -200,7 +204,14 @@ public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
         }
     }
 
-    public boolean updateNumForos (UsuarioCreador creador) throws SQLException{
+    /**
+     * Actualiza el número de foros creados por un usuario creador.
+     *
+     * @param creador El usuario creador cuya cantidad de foros creados se actualizará.
+     * @return true si la actualización fue exitosa, false en caso contrario.
+     * @throws SQLException si ocurre un error de base de datos.
+     */
+    public boolean updateNumForos (UsuarioCreador creador) throws SQLException {
         Boolean update = false;
         Connection con = ConnectionBD.getConnection();
         try (PreparedStatement pst = con.prepareStatement(UPDATE_NUM_FOROS)) {

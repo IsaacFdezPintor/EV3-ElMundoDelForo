@@ -36,17 +36,23 @@ public class UsuarioTest {
         foroDAO.insert(foro, usuarioCreador);
 */
 
-        /*UsuarioCreador admin = new UsuarioCreador("Admin", "Lucas", "usuariocreador@gmail.com", "1234");
+        UsuarioCreador admin = new UsuarioCreador("Admin", "Lucas", "usuariocreador@gmail.com", "1234");
+        UsuarioCreador adminNuevo = new UsuarioCreador();
+        adminNuevo.setNombre("Lucas");
+        adminNuevo.setApellidos("Gonzalez");
+        adminNuevo.setEmail("lucas@gmail.com");
         DAOUsuarioCreador adminDAO = new DAOUsuarioCreador();
         adminDAO.insert(admin);
-        System.out.println(adminDAO.check(admin.getEmail(), admin.getPassword()));
-        System.out.println(admin.getTipoUsuario());
-        System.out.println(adminDAO.delete(admin));*/
-        UsuarioComun comun = new UsuarioComun("Comun", "Luis", "comun@gmail.com", "1234");
+        System.out.println(adminDAO.update(adminNuevo, admin));
+        //System.out.println(adminDAO.check(admin.getEmail(), admin.getPassword()));
+        //System.out.println(admin.getTipoUsuario());
+
+        //System.out.println(adminDAO.delete(admin));
+        /*UsuarioComun comun = new UsuarioComun("Comun", "Luis", "comun@gmail.com", "1234");
         DAOUsuarioComun comunDAO = new DAOUsuarioComun();
         comunDAO.insert(comun);
         System.out.println(comunDAO.check(comun.getEmail(), comun.getPassword()));
-        System.out.println(comunDAO.delete(comun));
+        System.out.println(comunDAO.delete(comun));*/
 
         /*Foro foroBaseDatos = new Foro();
         foroBaseDatos.setTitulo("Foro de Base de Datos");

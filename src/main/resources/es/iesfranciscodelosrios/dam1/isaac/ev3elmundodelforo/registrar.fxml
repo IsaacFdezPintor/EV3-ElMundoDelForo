@@ -1,42 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<AnchorPane fx:id="registerPane" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.RegistrarControllers">
+<AnchorPane fx:id="registerPane"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.RegistrarControllers"
+            style="-fx-background-color: linear-gradient(to bottom, #e0e7ef, #ffffff);"
+            prefWidth="600" prefHeight="500">
 
-    <Text fill="#333333" layoutX="160.0" layoutY="54.0" text="Registro de Usuario" textAlignment="CENTER" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="159.09765625">
-        <font>
-            <Font name="Cooper Black" size="28.0" />
-        </font>
-    </Text>
+    <VBox alignment="CENTER" spacing="20"
+          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-    <!-- Selección de tipo de usuario -->
-    <HBox alignment="CENTER_LEFT" layoutY="80.0" spacing="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
-        <children>
-            <Label text="Tipo de usuario:" />
-            <ComboBox fx:id="comboTipoUsuario" promptText="Selecciona un tipo" prefWidth="200.0">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Creador" />
-                        <String fx:value="Común" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
-        </children>
-    </HBox>
+        <Region VBox.vgrow="ALWAYS"/>
 
-    <TextField fx:id="nombreField" layoutY="130" prefHeight="30" promptText="Nombre completo" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
-    <TextField fx:id="apellidoField" layoutX="100.0" layoutY="169.0" prefHeight="30" promptText="Apellido" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
-    <TextField fx:id="emailField" layoutX="100.0" layoutY="210.0" prefHeight="30" promptText="Correo electrónico" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
-    <PasswordField fx:id="passwordField" layoutX="100.0" layoutY="252.0" prefHeight="30" promptText="Contraseña" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
-    <PasswordField fx:id="confirmarPasswordField" layoutX="100.0" layoutY="290.0" prefHeight="30" promptText="Confirmar contraseña" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+        <VBox alignment="CENTER" spacing="15" maxWidth="450"
+              style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 4);">
 
-    <Button fx:id="botonRegistrar" layoutY="340" onAction="#onRegistrarUsuario" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Registrar" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+            <!-- Título -->
+            <Label text="Registro de Usuario"
+                   style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 24px; -fx-text-fill: #2E3A59;" />
 
-    <Label fx:id="mensajeLabel" layoutX="120.0" layoutY="396.0" prefHeight="17.0" prefWidth="368.0" style="-fx-text-fill: red;" text="" />
+            <!-- Tipo de usuario -->
+            <HBox spacing="10" alignment="CENTER_LEFT" maxWidth="Infinity">
+                <Label text="Tipo de usuario:" style="-fx-font-size: 14px;" />
+                <ComboBox fx:id="comboTipoUsuario" promptText="Selecciona un tipo" prefWidth="200">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Creador" />
+                            <String fx:value="Común" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
 
+            <!-- Campos de texto -->
+            <TextField fx:id="nombreField" promptText="Nombre completo"
+                       style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-border-color: #ccc; -fx-border-radius: 6; -fx-background-radius: 6;" />
+            <TextField fx:id="apellidoField" promptText="Apellido"
+                       style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-border-color: #ccc; -fx-border-radius: 6; -fx-background-radius: 6;" />
+            <TextField fx:id="emailField" promptText="Correo electrónico"
+                       style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-border-color: #ccc; -fx-border-radius: 6; -fx-background-radius: 6;" />
+            <PasswordField fx:id="passwordField" promptText="Contraseña"
+                           style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-border-color: #ccc; -fx-border-radius: 6; -fx-background-radius: 6;" />
+            <PasswordField fx:id="confirmarPasswordField" promptText="Confirmar contraseña"
+                           style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-border-color: #ccc; -fx-border-radius: 6; -fx-background-radius: 6;" />
+
+            <!-- Botón de registro -->
+            <Button fx:id="botonRegistrar" text="Registrar"
+                    onAction="#onRegistrarUsuario"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #2E3A59; -fx-text-fill: white; -fx-font-size: 15px; -fx-pref-height: 40; -fx-background-radius: 6;" />
+
+            <!-- Mensaje de error o confirmación -->
+            <Label fx:id="mensajeLabel"
+                   wrapText="true"
+                   style="-fx-text-fill: red; -fx-font-size: 13px;" />
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+    </VBox>
 </AnchorPane>

@@ -6,6 +6,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+/**
+ * Esta clase proporciona métodos para gestionar de los metodos comunes de las vistas
+ */
 
 public class ViewUtils {
 

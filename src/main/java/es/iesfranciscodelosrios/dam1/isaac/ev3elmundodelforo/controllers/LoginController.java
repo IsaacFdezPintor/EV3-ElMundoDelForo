@@ -60,6 +60,8 @@ public class LoginController {
 
                 else if (daoUsuarioComun.check(email, password)) {
                     UsuarioComun usuarioComun = daoUsuarioComun.findByCorreo(email);
+                    int comentariosBD = daoUsuarioComun.obtenerNumeroComentarios(usuarioComun);
+                    usuarioComun.setNum_Comentarios(comentariosBD);
                     SesionUsuario.setUsuario(usuarioComun);
                     ViewUtils.abrirNuevaVentana("forocomun.fxml", "Mundo del Foro - Usuario");
                     cerrarVentana.close();

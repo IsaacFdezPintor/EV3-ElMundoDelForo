@@ -4,36 +4,44 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<AnchorPane fx:id="actualizarUsuarioPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ActualizarUsuarioController">
+<AnchorPane fx:id="updatePane" prefHeight="450.0" prefWidth="600.0"
+            style="-fx-background-color: #f4f7f6;"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ActualizarUsuarioController">
 
-    <!-- Título principal -->
-    <Text fill="#333333" layoutX="160.0" layoutY="54.0" text="Actualizar Usuario" textAlignment="CENTER" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="159.09765625">
+    <!-- Título -->
+    <Text layoutX="160.0" layoutY="54.0" text="Actualizar Usuario" textAlignment="CENTER"
+          fill="#333333" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="160.0">
         <font>
-            <Font name="Cooper Black" size="28.0" />
+            <Font name="Cooper Black" size="28.0"/>
         </font>
     </Text>
 
-    <!-- Campos de texto para la actualización del usuario -->
-    <VBox alignment="CENTER" layoutY="100.0" spacing="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
-        <children>
 
-            <!-- Campos de texto para nombre, apellido y correo -->
-            <TextField fx:id="nombreField" prefHeight="30" promptText="Nombre completo" style="-fx-font-size: 14px;" />
-            <TextField fx:id="apellidoField" prefHeight="30" promptText="Apellido" style="-fx-font-size: 14px;" />
-            <TextField fx:id="emailField" prefHeight="30" promptText="Correo electrónico" style="-fx-font-size: 14px;" />
-
-            <!-- Campos de contraseña para actualización -->
-            <PasswordField fx:id="passwordField" prefHeight="30" promptText="Nueva Contraseña" style="-fx-font-size: 14px;" />
-            <PasswordField fx:id="confirmarPasswordField" prefHeight="30" promptText="Confirmar nueva contraseña" style="-fx-font-size: 14px;" />
-        </children>
-    </VBox>
+    <!-- Campos de edición -->
+    <TextField fx:id="nombreField" layoutY="130" prefHeight="30" promptText="Nombre completo"
+               AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
+    <TextField fx:id="apellidoField" layoutY="169" prefHeight="30" promptText="Apellido"
+               AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
+    <TextField fx:id="emailField" layoutY="210" prefHeight="30" promptText="Correo electrónico"
+               AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
+    <PasswordField fx:id="passwordField" layoutY="252" prefHeight="30" promptText="Nueva contraseña (opcional)"
+                   AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
+    <PasswordField fx:id="confirmarPasswordField" layoutY="290" prefHeight="30"
+                   promptText="Confirmar contraseña (opcional)"
+                   AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
 
     <!-- Botón de actualización -->
-    <Button fx:id="botonActualizar" layoutY="380" onAction="#onActualizarUsuario" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Actualizar Usuario" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    <Button fx:id="botonActualizar" layoutY="340" onAction="#ActualizarUsuario"
+            prefHeight="40"
+            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;"
+            text="Actualizar"
+            AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"/>
 
-    <!-- Label para mensajes de error o éxito -->
-    <Label fx:id="mensajeLabel" layoutX="120.0" layoutY="430.0" prefHeight="17.0" prefWidth="368.0" style="-fx-text-fill: red;" text="" />
+    <!-- Mensaje de éxito o error -->
+    <Label fx:id="mensajeLabel" layoutY="396" prefHeight="17.0" prefWidth="368.0"
+           style="-fx-text-fill: red;" text=""
+           AnchorPane.leftAnchor="120.0"/>
 
 </AnchorPane>

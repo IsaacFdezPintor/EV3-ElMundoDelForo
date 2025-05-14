@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.InfoControllerComun">
+
+    <VBox alignment="CENTER" spacing="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <children>
+            <Text style="-fx-font-size: 20px; -fx-fill: #333;" text="Información del Usuario">
+                <font>
+                    <Font name="Cooper Black" size="20" />
+                </font>
+            </Text>
+
+            <!-- Información del Usuario -->
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" />
+                    <ColumnConstraints halignment="LEFT" />
+                    <ColumnConstraints halignment="LEFT" />
+               <ColumnConstraints halignment="LEFT" />
+                </columnConstraints>
+                <children>
+               <Label text="Nivel Participación" GridPane.rowIndex="4" />
+                    <Label text="Nombre:" />
+                    <Label fx:id="labelNombre" GridPane.columnIndex="2" />
+
+                    <Label text="Apellido:" GridPane.rowIndex="1" />
+                    <Label fx:id="labelApellido" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                    <Label text="Correo:" GridPane.rowIndex="2" />
+                    <Label fx:id="labelCorreo" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+                    <Label text="Tipo:" GridPane.rowIndex="3" />
+                    <Label fx:id="labelTipoUsuario" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+               <Label fx:id="labelParticipacion" layoutX="77.0" layoutY="91.0" prefHeight="17.0" prefWidth="37.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                </children>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+                </rowConstraints>
+            </GridPane>
+
+            <!-- Botones -->
+            <HBox spacing="10">
+                <Button fx:id="btnActualizar" onAction="#actualizarUsuario" style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-background-radius: 5;" text="Actualizar" />
+                <Button fx:id="btnEliminar" onAction="#eliminarUsuario" style="-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-background-radius: 5;" text="Eliminar Usuario" />
+            </HBox>
+
+            <Label fx:id="mensajeAlerta" style="-fx-text-fill: red;" text="" />
+
+        </children>
+        <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+        </padding>
+    </VBox>
+</AnchorPane>

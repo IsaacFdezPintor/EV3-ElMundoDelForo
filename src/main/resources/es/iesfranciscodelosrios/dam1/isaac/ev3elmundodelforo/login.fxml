@@ -1,31 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="loginPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.LoginController">
+<AnchorPane fx:id="loginPane"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.LoginController"
+            style="-fx-background-color: linear-gradient(to bottom, #e9ecf1, #cfd8dc);"
+            prefHeight="400.0" prefWidth="600.0">
 
-    <!-- Título centrado -->
-    <Text fill="#333333" layoutX="116.0" layoutY="98.0" text="El mundo de los Foros" textAlignment="CENTER" AnchorPane.leftAnchor="116.0" AnchorPane.rightAnchor="128.078125" AnchorPane.topAnchor="68.625">
-        <font>
-            <Font name="Cooper Black" size="32.0" />
-        </font>
-    </Text>
+    <VBox alignment="CENTER" spacing="20"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
-    <!-- Campo usuario -->
-    <TextField fx:id="textEmail" layoutY="120" prefHeight="30" promptText="Correo electrónico" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+        <Region fx:id="spacerTop" VBox.vgrow="ALWAYS"/>
 
-    <!-- Campo contraseña -->
-    <PasswordField fx:id="textPassword" layoutY="170" prefHeight="30" promptText="Contraseña" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+        <VBox alignment="CENTER" spacing="15" maxWidth="400"
+              style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 4);">
 
-    <!-- Botón Iniciar sesión -->
-    <Button fx:id="login" layoutY="220" onAction="#onLogin" prefHeight="40" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Iniciar sesión" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+            <!-- Título -->
+            <Label text="El Mundo de los Foros"
+                   style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 24px; -fx-text-fill: #2E3A59;" />
 
-    <!-- Botón Registrar -->
-    <Button fx:id="registrar" layoutY="280" onAction="#setRegistrar" prefHeight="35" style="-fx-background-color: #008CBA; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px;" text="Registrar" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" />
+            <!-- Campo de email -->
+            <TextField fx:id="textEmail"
+                       promptText="Correo electrónico"
+                       maxWidth="Infinity"
+                       style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #bbb;" />
 
-    <!-- Etiqueta para mensaje de error -->
-    <Label fx:id="errorMensaje" layoutX="232.0" layoutY="337.0" prefHeight="17.0" prefWidth="183.0" />
+            <!-- Campo de contraseña -->
+            <PasswordField fx:id="textPassword"
+                           promptText="Contraseña"
+                           maxWidth="Infinity"
+                           style="-fx-pref-height: 40; -fx-font-size: 14px; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #bbb;" />
 
+            <!-- Botón de inicio de sesión -->
+            <Button fx:id="login"
+                    text="Iniciar sesión"
+                    onAction="#onLogin"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #2E3A59; -fx-text-fill: white; -fx-font-size: 15px; -fx-pref-height: 40; -fx-background-radius: 6;" />
+
+            <!-- Botón de registro -->
+            <Button fx:id="registrar"
+                    text="Crear cuenta"
+                    onAction="#setRegistrar"
+                    style="-fx-background-color: transparent; -fx-text-fill: #2E3A59; -fx-font-size: 13px; -fx-underline: true;" />
+
+            <!-- Mensaje de error -->
+            <Label fx:id="errorMensaje"
+                   wrapText="true"
+                   style="-fx-text-fill: #E74C3C; -fx-font-size: 12px;"/>
+
+        </VBox>
+
+        <Region fx:id="spacerBottom" VBox.vgrow="ALWAYS"/>
+    </VBox>
 </AnchorPane>

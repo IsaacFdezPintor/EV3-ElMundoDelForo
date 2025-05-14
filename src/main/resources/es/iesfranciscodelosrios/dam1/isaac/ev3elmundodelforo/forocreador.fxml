@@ -1,73 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<AnchorPane xmlns="http://javafx.com/javafx/12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="rootPane"
+            fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ForoControllerCreador"
+            prefWidth="1200" prefHeight="800"> <!-- Aumenta el tamaño del contenedor principal -->
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ForoControllerCreador">
-
-    <!-- Título -->
-    <Text fill="#333333" layoutX="277.0" layoutY="35.0" text="Foros y Comentarios" textAlignment="CENTER">
-        <font>
-            <Font name="Cooper Black" size="24.0" />
-        </font>
-    </Text>
-
-    <!-- Botón "Mi Información" -->
-    <Button fx:id="btnMiInformacion" onAction="#miInformacion" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 12px;" text="Mi Información" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="15" />
-
-    <!-- Botón "Cerrar Sesión" -->
-    <Button fx:id="btnCerrarSesion" onAction="#cerrarSesion" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 12px;" text="Cerrar sesión" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="15" />
-
-    <!-- Panel principal con GridPane -->
-    <GridPane hgap="20.0" vgap="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
+    <!-- Cabecera -->
+    <HBox spacing="20" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <style>
+            -fx-background-color: #34495E;
+        </style>
         <children>
-            <!-- Columna 1: Lista de Foros -->
-            <VBox prefHeight="200.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="0" VBox.vgrow="ALWAYS">
+            <Label text="Mundo del Foro - Creador" style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" />
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnMiInformacion" text="Mi Info" onAction="#miInformacion"
+                    style="-fx-background-color: #1ABC9C; -fx-text-fill: white; -fx-font-size: 18px;" />
+            <Button fx:id="btnCerrarSesion" text="Salir" onAction="#cerrarSesion"
+                    style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-size: 18px;" />
+        </children>
+    </HBox>
+
+    <!-- Contenido principal -->
+    <HBox spacing="20" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <children>
+            <!-- Menú lateral con lista de foros -->
+            <VBox spacing="20" prefWidth="300">
+                <style>
+                    -fx-background-color: #ECEFF1;
+                    -fx-padding: 20;
+                    -fx-border-color: #B0BEC5;
+                    -fx-border-width: 2;
+                    -fx-border-radius: 8;
+                </style>
                 <children>
-                    <Label style="-fx-font-weight: bold;" text="Lista de Foros" />
-                    <ScrollPane fitToHeight="true" fitToWidth="true">
-                        <ListView fx:id="listaForos" onMouseClicked="#mostrarForoSeleccionado" prefHeight="721.0" prefWidth="248.0" />
-                    </ScrollPane>
+                    <Label text="Foros Disponibles" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
+                    <ListView fx:id="listaForos" onMouseClicked="#mostrarForoSeleccionado"
+                              style="-fx-background-color: white; -fx-border-color: #B0BEC5; -fx-border-radius: 8;" />
                 </children>
             </VBox>
 
-            <!-- Columna 2: Comentarios y campo de entrada -->
-            <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="0" VBox.vgrow="ALWAYS">
+            <!-- Área central -->
+            <VBox spacing="20" HBox.hgrow="ALWAYS">
                 <children>
-                    <Label style="-fx-font-weight: bold;" text="Comentarios" />
-                    <ScrollPane fitToHeight="true">
-                        <ListView fx:id="listaComentarios" prefWidth="540.0" />
-                    </ScrollPane>
-
-                    <!-- Información del Foro -->
-                    <VBox spacing="5.0" style="-fx-background-color: #e0e0e0; -fx-padding: 10; -fx-background-radius: 5;">
+                    <!-- Detalles y Comentarios -->
+                    <VBox spacing="20">
+                        <style>
+                            -fx-background-color: white;
+                            -fx-padding: 20;
+                            -fx-border-color: #CFD8DC;
+                            -fx-border-radius: 8;
+                        </style>
                         <children>
-                            <Label style="-fx-font-weight: bold;" text="Información del Foro" />
-                            <Label fx:id="labelDescripcionForo" text="Descripción: " wrapText="true" />
-                            <Label fx:id="labelCreadorForo" text="Creador: " />
+                            <Label text="Comentarios" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
+                            <ListView fx:id="listaComentarios"
+                                      style="-fx-background-color: #F9FAFB; -fx-border-color: #B0BEC5; -fx-border-radius: 8;" />
+
+                            <VBox spacing="15">
+                                <children>
+                                    <Label fx:id="labelDescripcionForo" text="Descripción:" wrapText="true" style="-fx-font-size: 18px;" />
+                                    <Label fx:id="labelCreadorForo" text="Creador:" style="-fx-font-size: 18px;" />
+                                </children>
+                            </VBox>
+
+                            <Label fx:id="mensajeAlerta" style="-fx-text-fill: red; -fx-font-size: 18px;" />
+
+                            <TextArea fx:id="campoComentario" promptText="Escribe tu comentario..." wrapText="true"
+                                      style="-fx-background-color: #F9FAFB; -fx-border-color: #B0BEC5; -fx-border-radius: 8; -fx-font-size: 18px;" />
+                            <Button fx:id="btnPublicarComentario" text="Publicar" onAction="#PublicarComentario"
+                                    style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-size: 18px;" />
                         </children>
                     </VBox>
-
-                    <!-- Botones de Editar y Eliminar -->
-                    <HBox alignment="CENTER_RIGHT" spacing="10">
-                        <Label fx:id="mensajeAlerta" prefHeight="17.0" prefWidth="300.0" HBox.hgrow="SOMETIMES" />
-                        <Button fx:id="btnAnadir" onAction="#anadirNuevoForo" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Añadir" />
-                        <Button fx:id="btnEditar" onAction="#actualizarForo" style="-fx-background-color: #FFC107; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Actualizar" />
-                        <Button fx:id="btnEliminar" onAction="#eliminarItemSeleccionado" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 13px;" text="Eliminar" />
-                    </HBox>
-
-                    <!-- Campo de comentario y botón de publicar eliminados -->
                 </children>
             </VBox>
         </children>
-        <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" />
-            <ColumnConstraints hgrow="ALWAYS" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints vgrow="ALWAYS" />
-        </rowConstraints>
-    </GridPane>
-
+    </HBox>
 </AnchorPane>

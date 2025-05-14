@@ -8,23 +8,23 @@ La carpeta `utils` contiene clases y métodos utilitarios diseñados para propor
 La clase `Utils` contiene métodos estáticos que ayudan en tareas comunes como la validación de correos electrónicos y contraseñas.
 
 - **Método: `EmailValido(String email)`**  
-  Valida si una cadena de texto tiene el formato correcto de un correo electrónico. Utiliza una expresión regular para comprobar que el correo electrónico cumple con los estándares comunes de formato.
-
+Verifica si un correo electrónico tiene un formato válido. Este método utiliza una expresión regular para comprobar que el correo electrónico sigue un formato estándar. El formato correcto es algo como: nombre@dominio.com
 - **Método: `ContraseñaValida(String contraseña)`**  
-  Valida si una contraseña cumple con ciertos criterios de seguridad. Los requisitos incluyen al menos:
-    - 8 caracteres.
-    - Al menos una letra mayúscula.
-    - Al menos una letra minúscula.
-    - Al menos un número.
-    - Al menos un carácter especial (por ejemplo: `@$!%*?&`).
+Valida si la contraseña cumple con los criterios de seguridad establecidos.
+  - Los criterios incluyen:
+  - Minimo 8 caracteres
+  - Maximo 15
+  - Al menos una letra mayúscula
+  - Al menos una letra minucula
+  - Al menos un dígito
+  - No espacios en blanco
+  - Al menos 1 caracter especial ( NO # )
 
 ### 2. **`ViewUtils`**
-La clase `ViewUtils` proporciona métodos para gestionar la apertura de nuevas ventanas . Permite abrir ventanas redimensionales o fijas.
+La clase `ViewUtils` proporciona métodos para gestionar los metodos comunes de la vista 
 
 - **Método: `abrirNuevaVentana(String fxml, String titulo)`**  
-  Abre una nueva ventana con el archivo FXML especificado y el título indicado. La ventana es redimensionable.
-
+  Este método carga un archivo FXML, crea una nueva escena a partir de este archivo y abre una nueva ventana con el título proporcionado.
 - **Método: `abrirNuevaVentanaFija(String fxml, String titulo)`**  
-  Similar al método anterior, pero esta ventana es fija y no puede ser redimensionada. 
-
+  Similar al método anterior, pero esta ventana no es redimensionable. Esto es útil si se quiere que la ventana tenga un tamaño fijo.
 

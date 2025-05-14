@@ -1,6 +1,9 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils;
 
 import java.util.regex.Pattern;
+/*
+ * Esta clase contiene métodos estáticos que ayudan en tareas comunes como la validación de correos electrónicos y contraseñas.
+ */
 
 public class Utils {
 
@@ -33,7 +36,7 @@ public class Utils {
      * Al menos una letra minucula
      * Al menos un dígito
      * No espacios en blanco
-     * Al menos 1 caracter especial
+     * Al menos 1 caracter especial ( NO # )
      *
      * Este método asegura que la contraseña no solo tenga una longitud mínima,
      * sino que también cumpla con un nivel adecuado de complejidad.
@@ -42,7 +45,8 @@ public class Utils {
      * @return true si la contraseña cumple con todos los requisitos de seguridad, false en caso contrario.
      */
     public static boolean ContraseñaValida(String contraseña) {
-        // Expresión regular que valida los criterios de seguridad de la contraseña.
+        // Expresión regular que valida los criterios de seguridad de la contraseña. No esta permitido el caracter #
+        // Ejemplo de contraseña válidas:  Hola123$ Passw0rd! Abcdef1@
         // Información extraída de la página https://es.stackoverflow.com/questions/4300/expresiones-regulares-para-contrase%C3%B1a-en-base-a-una-politica
         String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,15}$";
 

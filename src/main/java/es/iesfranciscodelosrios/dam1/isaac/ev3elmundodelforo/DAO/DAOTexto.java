@@ -18,12 +18,19 @@ public class DAOTexto {
     private static final String FIND_BY_FORO_ID = "SELECT * FROM texto WHERE id_foro = ?";
     private static final String DELETE_TEXTO = "DELETE FROM texto WHERE id_contenido = ?";
 
-
-
+    /**
+     * Inserta un nuevo texto en la base de datos.
+     *
+     * @param user El usuario que crea el texto.
+     * @param foro El foro al que pertenece el texto.
+     * @param texto El objeto Texto que contiene la información del mensaje.
+     * @return true si el texto se inserta correctamente, false si no.
+     * @throws SQLException Si ocurre un error con la base de datos.
+     */
     public Boolean insert(Usuario user, Foro foro, Texto texto) throws SQLException {
         boolean inserted = false;
         if (user == null || foro == null || texto == null) {
-            throw new IllegalArgumentException("Usuario, foro o texto no pueden estar vacios.");
+            throw new IllegalArgumentException("Usuario, foro o texto no pueden estar vacíos.");
         }
 
         try (
@@ -34,13 +41,19 @@ public class DAOTexto {
             pst.setInt(2, user.getId_Usuario());
             pst.setInt(3, foro.getId_foro());
             pst.setString(4, texto.getTexto());
-            pst.executeUpdate();
+            pst.executeUpdate();  // Ejecuta la inserción
             inserted = true;
         }
         return inserted;
     }
 
-
+    /**
+     * Recupera todos los textos de un foro dado.
+     *
+     * @param idForo El ID del foro cuyo texto se desea recuperar.
+     * @return Una lista de objetos Texto con todos los textos asociados al foro.
+     * @throws SQLException Si ocurre un error con la base de datos.
+     */
     public List<Texto> findAllByForoId(int idForo) throws SQLException {
         List<Texto> textos = new ArrayList<>();
 
@@ -65,6 +78,13 @@ public class DAOTexto {
         return textos;
     }
 
+    /**
+     * Elimina un texto de la base de datos.
+     *
+     * @param texto El objeto Texto que se desea eliminar.
+     * @return true si el texto se elimina correctamente, false si no.
+     * @throws SQLException Si ocurre un error con la base de datos.
+     */
     public boolean delete(Texto texto) throws SQLException {
         boolean deleted = false;
         if (texto == null || texto.getId_contenido() == 0) {
@@ -82,7 +102,4 @@ public class DAOTexto {
 
         return deleted;
     }
-
-
-
 }

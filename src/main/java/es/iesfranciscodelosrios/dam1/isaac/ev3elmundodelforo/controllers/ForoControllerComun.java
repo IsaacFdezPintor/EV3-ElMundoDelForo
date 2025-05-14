@@ -2,11 +2,10 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOForo;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOTexto;
-import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
-import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.SesionUsuario;
-import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Texto;
-import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO.DAOUsuarioComun;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.*;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.utils.ViewUtils;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -116,6 +115,25 @@ public class ForoControllerComun {
         DAOTexto daoTexto = new DAOTexto();
         boolean comentarioPublicado = daoTexto.insert(usuarioActual, foroSeleccionado, nuevoComentario);
 
+        // Volver a cargar la lista de comentarios del foro seleccionado
+        List<Texto> comentariosActualizados = daoTexto.findAllByForoId(foroSeleccionado.getId_foro());
+        listaComentarios.setItems(FXCollections.observableArrayList(comentariosActualizados));
+        DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
+        UsuarioComun comun = (UsuarioComun) usuarioActual;
+        comun.incrementarNum_Comentarios();
+        daoUsuarioComun.updateNumComentarios(comun);
+
+        if (daoUsuarioComun.obtenerNumeroComentarios(comun) > 5) {
+            daoUsuarioComun.updateParticipacion(comun, Participacion.BAJA);
+            return;
+        } else if (daoUsuarioComun.obtenerNumeroComentarios(comun) > 10) {
+            daoUsuarioComun.updateParticipacion(comun, Participacion.MEDIA);
+            return;
+        } else if (daoUsuarioComun.obtenerNumeroComentarios(comun) > 20) {
+            daoUsuarioComun.updateParticipacion(comun, Participacion.ALTA);
+            return;
+        }
+
         if (comentarioPublicado) {
             cargarComentarios(foroSeleccionado);
             campoComentario.clear();
@@ -152,7 +170,7 @@ public class ForoControllerComun {
      */
     @FXML
     public void miInformacion(ActionEvent actionEvent) throws IOException {
-        ViewUtils.abrirNuevaVentanaFija("miInformacion.fxml", "Mi Información");
+        ViewUtils.abrirNuevaVentanaFija("miInformacionComun.fxml", "Mi Información");
     }
 
     /**

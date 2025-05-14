@@ -29,7 +29,7 @@ public class DAOForo {
      */
     public Foro insert(Foro foro, Usuario creador) throws SQLException {
         if (foro != null && creador != null) {
-            try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT_FORO,Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT_FORO, Statement.RETURN_GENERATED_KEYS)) {
                 pst.setString(1, foro.getTitulo());
                 pst.setString(2, foro.getDescripcion());
                 pst.setDate(3, foro.getFecha_creacion());
@@ -90,7 +90,6 @@ public class DAOForo {
         }
         return eliminado;
     }
-
 
     /**
      * Recupera todos los foros existentes.

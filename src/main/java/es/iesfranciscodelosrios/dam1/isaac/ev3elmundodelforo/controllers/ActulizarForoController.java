@@ -80,10 +80,6 @@ public class ActulizarForoController {
         String titulo = nombreForo.getText().trim();  // Obtiene el título introducido
         String descripcion = descripcionActualizar.getText().trim(); // Obtiene la descripción introducida
 
-        if (titulo.isEmpty() || descripcion.isEmpty()) {
-            mensajeLabel.setText("Todos los campos son obligatorios.");
-            return;
-        }
 
         Usuario usuarioActual = SesionUsuario.getUsuario();
 
@@ -100,8 +96,17 @@ public class ActulizarForoController {
         }
 
         Foro nuevoForo = new Foro();
-        nuevoForo.setTitulo(titulo);
-        nuevoForo.setDescripcion(descripcion);
+        if (!titulo.isEmpty()){
+            nuevoForo.setTitulo(titulo);
+        } else {
+            nuevoForo.setTitulo(foroSeleccionado.getTitulo());
+        }
+
+        if (!descripcion.isEmpty()){
+            nuevoForo.setDescripcion(descripcion);
+        } else {
+            nuevoForo.setDescripcion(foroSeleccionado.getDescripcion());
+        }
 
         DAOForo daoForo = new DAOForo();
 

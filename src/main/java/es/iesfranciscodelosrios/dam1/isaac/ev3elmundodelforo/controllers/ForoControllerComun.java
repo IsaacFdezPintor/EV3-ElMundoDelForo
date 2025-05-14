@@ -138,11 +138,12 @@ public class ForoControllerComun {
 
         if (comentarioPublicado) {
             cargarComentarios(foroSeleccionado);
-            campoComentario.clear();
             mensajeAlerta.setText("Comentario publicado con éxito.");
+            campoComentario.clear();
         } else {
             mensajeAlerta.setText("No se pudo publicar el comentario.");
         }
+
     }
 
     /**

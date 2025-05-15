@@ -74,7 +74,9 @@ public class ActulizarForoController {
      * Actualiza el foro seleccionado con los nuevos datos (título y descripción).
      *
      * @throws SQLException si ocurre un error al intentar actualizar el foro en la base de datos
+     * @return void No retorna ningún valor, pero actualiza la interfaz gráfica y la base de datos.
      */
+
     @FXML
     private void actualizarForo() throws SQLException {
         String titulo = nombreForo.getText().trim();  // Obtiene el título introducido

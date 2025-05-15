@@ -85,7 +85,8 @@ public class ForoControllerComun {
      * @throws SQLException si ocurre un error al insertar el comentario.
      */
     @FXML
-    private void PublicarComentario() throws SQLException {
+    private void PublicarComentario() throws SQLException
+    {
         String comentarioTexto = campoComentario.getText().trim();
 
         if (comentarioTexto.isEmpty()) {

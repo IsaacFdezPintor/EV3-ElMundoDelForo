@@ -48,12 +48,12 @@ public class CrearForoController {
             return;
         }
         System.out.println(usuarioActual.getTipoUsuario());
-        if (usuarioActual.getTipoUsuario().equals("CREADOR")) {;
+
             UsuarioCreador creador = (UsuarioCreador) usuarioActual;
             creador.setNum_ForosCreados();
             DAOUsuarioCreador daoUsuarioCreador = new DAOUsuarioCreador();
             daoUsuarioCreador.updateNumForos(creador);
-        }
+
 
         Foro nuevoForo = new Foro();
         nuevoForo.setTitulo(titulo);

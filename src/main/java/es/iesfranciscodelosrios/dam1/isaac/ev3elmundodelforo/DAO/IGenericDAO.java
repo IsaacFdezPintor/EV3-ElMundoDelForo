@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IGenericDAO<T> {
-    T insert(T usuario) throws SQLException;
+        T insert(T usuario) throws SQLException;
 
     boolean update(T usuarioNuevo , T usuarioActual ) throws SQLException;
 

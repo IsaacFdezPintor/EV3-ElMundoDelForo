@@ -274,8 +274,6 @@ public class DAOUsuarioComun implements IGenericDAO<UsuarioComun> {
             }
 
         } catch (SQLException e) {
-            // Log de error o manejo personalizado de excepciones
-            System.err.println("Error al actualizar la participación: " + e.getMessage());
         }
 
         return updated;

@@ -122,7 +122,9 @@ public class ForoControllerComun {
         UsuarioComun comun = (UsuarioComun) usuarioActual;
         comun.incrementarNum_Comentarios();
         int numComentarios = daoUsuarioComun.obtenerNumeroComentarios(comun);
-
+        daoUsuarioComun.updateNumComentarios(comun);
+        mensajeAlerta.setText("Comentario publicado con éxito.");
+        campoComentario.clear();
 
         if (numComentarios < 5) {
             daoUsuarioComun.updateParticipacion(comun, Participacion.BAJA);
@@ -139,8 +141,7 @@ public class ForoControllerComun {
 
         if (comentarioPublicado) {
             cargarComentarios(foroSeleccionado);
-            mensajeAlerta.setText("Comentario publicado con éxito.");
-            campoComentario.clear();
+
         } else {
             mensajeAlerta.setText("No se pudo publicar el comentario.");
         }

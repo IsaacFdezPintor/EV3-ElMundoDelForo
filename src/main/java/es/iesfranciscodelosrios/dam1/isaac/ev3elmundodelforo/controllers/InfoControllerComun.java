@@ -19,33 +19,25 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class InfoControllerComun implements Initializable {
+/**
+ * Controlador de la vista de información para usuarios comunes.
+ * Permite visualizar información del usuario, su participación, y eliminar o actualizar sus datos.
+ */
+public class InfoControllerComun  {
 
-    @FXML
-    private Label labelNombre;
+    @FXML private Label labelNombre;
+    @FXML private Label labelApellido;
+    @FXML private Label labelCorreo;
+    @FXML private Label labelTipoUsuario;
+    @FXML private Button btnEliminar;
+    @FXML private Label mensajeAlerta;
+    @FXML private Label labelParticipacion;
 
-    @FXML
-    private Label labelApellido;
-
-    @FXML
-    private Label labelCorreo;
-
-
-    @FXML
-    private Label labelTipoUsuario;
-
-    @FXML
-    private Button btnEliminar;
-
-    @FXML
-    private Label mensajeAlerta;
-
-    @FXML
-    private Label labelParticipacion;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Comprobamos si el usuario está logueado
+    /**
+     * Método que se ejecuta automáticamente al iniciar la vista.
+     * Carga los datos del usuario común actual y los muestra.
+     */
+    public void initialize() {
         Usuario usuario = SesionUsuario.getUsuario();
         UsuarioComun usuarioComun = (UsuarioComun) usuario;
         DAOUsuarioComun daoUsuarioComun = new DAOUsuarioComun();
@@ -54,8 +46,8 @@ public class InfoControllerComun implements Initializable {
             labelNombre.setText(usuario.getNombre());
             labelApellido.setText(usuario.getApellidos());
             labelCorreo.setText(usuario.getEmail());
-            labelTipoUsuario.setText(usuario.getTipoUsuario());  // Mostrar el tipo de usuario (COMUN/CREADOR)
-            labelParticipacion.setText (daoUsuarioComun.obtenerParticipacion(usuario));
+            labelTipoUsuario.setText(usuario.getTipoUsuario());
+            labelParticipacion.setText(daoUsuarioComun.obtenerParticipacion(usuario));
         } else {
             labelNombre.setText("Usuario no encontrado");
             labelApellido.setText("");
@@ -64,30 +56,27 @@ public class InfoControllerComun implements Initializable {
         }
     }
 
-    @FXML
-    public void actualizarUsuario(ActionEvent actionEvent) throws IOException {
-        // Abrir la ventana para actualizar el usuario
-        ViewUtils.abrirNuevaVentanaFija("actualizarUsuario.fxml", "Actualizar Usuario");
-    }
 
+    /**
+     * Elimina el usuario actualmente logueado.
+     * Si es exitoso, cierra la sesión y redirige al login.
+     *
+     * @param event Evento de acción generado al pulsar el botón eliminar
+     */
     @FXML
     public void eliminarUsuario(ActionEvent event) {
-        // Obtener el usuario de la sesión
         Usuario usuario = SesionUsuario.getUsuario();
 
-        // Verificar si el usuario está en sesión
         if (usuario == null) {
             mensajeAlerta.setText("No hay ningún usuario logeado.");
             return;
         }
 
-        // Dependiendo del tipo de usuario, realizamos la eliminación
         if (usuario.getTipoUsuario().equals("COMUN")) {
             DAOUsuarioComun dao = new DAOUsuarioComun();
             try {
                 boolean eliminado = dao.delete((UsuarioComun) usuario);
                 if (eliminado) {
-                    // Si el usuario fue eliminado, cerramos sesión y redirigimos al login
                     SesionUsuario.cerrarSesion();
                     cerrarVentanasYAbrirLogin();
                 } else {
@@ -102,7 +91,6 @@ public class InfoControllerComun implements Initializable {
             try {
                 boolean eliminado = dao.delete((UsuarioCreador) usuario);
                 if (eliminado) {
-                    // Si el usuario fue eliminado, cerramos sesión y redirigimos al login
                     SesionUsuario.cerrarSesion();
                     cerrarVentanasYAbrirLogin();
                 } else {
@@ -117,13 +105,16 @@ public class InfoControllerComun implements Initializable {
         }
     }
 
+    /**
+     * Cierra la ventana actual y abre la pantalla de login.
+     *
+     * Este método se llama después de eliminar al usuario exitosamente.
+     */
     private void cerrarVentanasYAbrirLogin() {
         try {
-            // Cerrar todas las ventanas (excepto la ventana de login)
             Stage currentStage = (Stage) btnEliminar.getScene().getWindow();
-            currentStage.close();
-            currentStage.close();
-            ViewUtils.abrirNuevaVentanaFija("login.fxml", "Login");
+            currentStage.close();  // Cierra la ventana actual
+            ViewUtils.abrirNuevaVentanaFija("login.fxml", "Login");  // Abre la ventana de login
         } catch (IOException e) {
             e.printStackTrace();
             mensajeAlerta.setText("No se pudo abrir la ventana de login.");

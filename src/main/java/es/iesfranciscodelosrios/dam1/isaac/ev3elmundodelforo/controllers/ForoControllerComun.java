@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Controlador de la pantalla principal del foro para usuarios comunes.
+ */
 public class ForoControllerComun {
 
     @FXML private ListView<Foro> listaForos;

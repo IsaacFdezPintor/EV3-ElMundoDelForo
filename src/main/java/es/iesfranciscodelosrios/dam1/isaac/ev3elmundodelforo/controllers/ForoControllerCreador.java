@@ -20,6 +20,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Controlador de la pantalla principal del foro para usuarios creadores.
+ */
+
 public class ForoControllerCreador {
 
     @FXML private ListView<Foro> listaForos;
@@ -88,50 +92,6 @@ public class ForoControllerCreador {
         listaComentarios.getItems().setAll(comentarios);
     }
 
-    /**
-     * Publica un comentario nuevo en el foro seleccionado.
-     *
-     * @throws SQLException si ocurre un error al insertar el comentario.
-     */
-    @FXML
-    private void PublicarComentario() throws SQLException {
-        String comentarioTexto = campoComentario.getText().trim();
-
-        if (comentarioTexto.isEmpty()) {
-            mensajeAlerta.setText("El comentario no puede estar vacío.");
-            return;
-        }
-
-        Usuario usuarioActual = SesionUsuario.getUsuario();
-
-        if (usuarioActual == null) {
-            mensajeAlerta.setText("No hay un usuario logueado.");
-            return;
-        }
-
-        Foro foroSeleccionado = listaForos.getSelectionModel().getSelectedItem();
-
-        if (foroSeleccionado == null) {
-            mensajeAlerta.setText("Debes seleccionar un foro para comentar.");
-            return;
-        }
-
-        Texto nuevoComentario = new Texto();
-        nuevoComentario.setTexto(comentarioTexto);
-        nuevoComentario.setId_foro(foroSeleccionado.getId_foro());
-        nuevoComentario.setId_usuario(usuarioActual.getId_Usuario());
-
-        DAOTexto daoTexto = new DAOTexto();
-        boolean comentarioPublicado = daoTexto.insert(usuarioActual, foroSeleccionado, nuevoComentario);
-
-        if (comentarioPublicado) {
-            cargarComentarios(foroSeleccionado);
-            campoComentario.clear();
-            mensajeAlerta.setText("Comentario publicado con éxito.");
-        } else {
-            mensajeAlerta.setText("No se pudo publicar el comentario.");
-        }
-    }
 
     /**
      * Muestra la descripción y creador del foro seleccionado.

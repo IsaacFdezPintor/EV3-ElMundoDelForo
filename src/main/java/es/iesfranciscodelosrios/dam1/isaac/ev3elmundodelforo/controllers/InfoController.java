@@ -18,103 +18,90 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-    public class InfoController implements Initializable {
+/**
+ * Controlador de la vista de información del usuario.
+ * Muestra información del usuario actual y permite su eliminación.
+ */
+public class InfoController  {
 
-        @FXML
-        private Label labelNombre;
+    @FXML private Label labelNombre;
+    @FXML private Label labelApellido;
+    @FXML private Label labelCorreo;
+    @FXML private Label labelTipoUsuario;
+    @FXML private Button btnEliminar;
+    @FXML private Label mensajeAlerta;
 
-        @FXML
-        private Label labelApellido;
+    /**
+     * Método que se ejecuta automáticamente al inicializar la vista.
+     *
+     * Este método recupera el usuario en sesión y muestra sus datos en los labels correspondientes.
+     */
+    public void initialize() {
+        Usuario usuario = SesionUsuario.getUsuario();
 
-        @FXML
-        private Label labelCorreo;
-
-
-        @FXML
-        private Label labelTipoUsuario;
-
-        @FXML
-        private Button btnEliminar;
-
-        @FXML
-        private Label mensajeAlerta;
-
-        @Override
-        public void initialize(URL location, ResourceBundle resources) {
-            // Comprobamos si el usuario está logueado
-            Usuario usuario = SesionUsuario.getUsuario();
-
-            if (usuario != null) {
-                labelNombre.setText(usuario.getNombre());
-                labelApellido.setText(usuario.getApellidos());
-                labelCorreo.setText(usuario.getEmail());
-                labelTipoUsuario.setText(usuario.getTipoUsuario());  // Mostrar el tipo de usuario (COMUN/CREADOR)
-            } else {
-                labelNombre.setText("Usuario no encontrado");
-                labelApellido.setText("");
-                labelCorreo.setText("");
-                labelTipoUsuario.setText("");
-            }
-        }
-
-
-        @FXML
-        public void eliminarUsuario(ActionEvent event) {
-            // Obtener el usuario de la sesión
-            Usuario usuario = SesionUsuario.getUsuario();
-
-            // Verificar si el usuario está en sesión
-            if (usuario == null) {
-                mensajeAlerta.setText("No hay ningún usuario logeado.");
-                return;
-            }
-
-            // Dependiendo del tipo de usuario, realizamos la eliminación
-            if (usuario.getTipoUsuario().equals("COMUN")) {
-                DAOUsuarioComun dao = new DAOUsuarioComun();
-                try {
-                    boolean eliminado = dao.delete((UsuarioComun) usuario);
-                    if (eliminado) {
-                        // Si el usuario fue eliminado, cerramos sesión y redirigimos al login
-                        SesionUsuario.cerrarSesion();
-                        cerrarVentanasYAbrirLogin();
-                    } else {
-                        mensajeAlerta.setText("No se pudo eliminar el usuario.");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mensajeAlerta.setText("Error al intentar eliminar el usuario.");
-                }
-            } else if (usuario.getTipoUsuario().equals("CREADOR")) {
-                DAOUsuarioCreador dao = new DAOUsuarioCreador();
-                try {
-                    boolean eliminado = dao.delete((UsuarioCreador) usuario);
-                    if (eliminado) {
-                        // Si el usuario fue eliminado, cerramos sesión y redirigimos al login
-                        SesionUsuario.cerrarSesion();
-                        cerrarVentanasYAbrirLogin();
-                    } else {
-                        mensajeAlerta.setText("No se pudo eliminar el usuario creador.");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mensajeAlerta.setText("Error al intentar eliminar el usuario creador.");
-                }
-            } else {
-                mensajeAlerta.setText("Tipo de usuario desconocido.");
-            }
-        }
-
-        private void cerrarVentanasYAbrirLogin() {
-            try {
-                // Cerrar todas las ventanas (excepto la ventana de login)
-                Stage currentStage = (Stage) btnEliminar.getScene().getWindow();
-                currentStage.close();
-                currentStage.close();
-                ViewUtils.abrirNuevaVentanaFija("login.fxml", "Login");
-            } catch (IOException e) {
-                e.printStackTrace();
-                mensajeAlerta.setText("No se pudo abrir la ventana de login.");
-            }
+        if (usuario != null) {
+            labelNombre.setText(usuario.getNombre());
+            labelApellido.setText(usuario.getApellidos());
+            labelCorreo.setText(usuario.getEmail());
+            labelTipoUsuario.setText(usuario.getTipoUsuario());
+        } else {
+            labelNombre.setText("Usuario no encontrado");
+            labelApellido.setText("");
+            labelCorreo.setText("");
+            labelTipoUsuario.setText("");
         }
     }
+
+    /**
+     * Elimina el usuario actualmente logueado dependiendo de su tipo.
+     *
+     * @param event Evento de acción generado por el botón
+     *
+     * Este método identifica si el usuario es COMUN o CREADOR, y llama al DAO correspondiente para eliminarlo.
+     * En caso de éxito, cierra sesión y abre la vista de login. En caso de error, muestra mensaje en pantalla.
+     */
+    @FXML
+    public void eliminarUsuario(ActionEvent event) {
+        Usuario usuario = SesionUsuario.getUsuario();
+
+        if (usuario == null) {
+            mensajeAlerta.setText("No hay ningún usuario logeado.");
+            return;
+        }
+
+        if (usuario.getTipoUsuario().equals("CREADOR")) {
+            DAOUsuarioCreador dao = new DAOUsuarioCreador();
+            try {
+                boolean eliminado = dao.delete((UsuarioCreador) usuario);
+                if (eliminado) {
+                    SesionUsuario.cerrarSesion();
+                    cerrarVentanasYAbrirLogin();
+                } else {
+                    mensajeAlerta.setText("No se pudo eliminar el usuario creador.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                mensajeAlerta.setText("Error al intentar eliminar el usuario creador.");
+            }
+        } else {
+            mensajeAlerta.setText("Tipo de usuario desconocido.");
+        }
+    }
+
+    /**
+     * Cierra la ventana actual y abre la ventana de login.
+     *
+     * Este método no recibe parámetros ni devuelve valor.
+     * Muestra un mensaje de error si no puede abrir la vista de login.
+     */
+    private void cerrarVentanasYAbrirLogin() {
+        try {
+            Stage currentStage = (Stage) btnEliminar.getScene().getWindow();
+            currentStage.close(); // Cierra la ventana actual
+            ViewUtils.abrirNuevaVentanaFija("login.fxml", "Login");
+        } catch (IOException e) {
+            e.printStackTrace();
+            mensajeAlerta.setText("No se pudo abrir la ventana de login.");
+        }
+    }
+}

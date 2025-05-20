@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.InfoController"
+            style="-fx-background-color: linear-gradient(to bottom, #e9ecf1, #cfd8dc);">
+
+    <VBox alignment="CENTER" spacing="20"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+
+        <Region VBox.vgrow="ALWAYS" />
+
+        <VBox alignment="CENTER" spacing="20" maxWidth="500"
+              style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.1, 0, 4);">
+
+            <!-- Título -->
+            <Label text="Información del Usuario"
+                   style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 22px; -fx-text-fill: #2E3A59;" />
+
+            <!-- Información del Usuario -->
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" />
+                    <ColumnConstraints halignment="LEFT" />
+                    <ColumnConstraints halignment="LEFT" />
+                    <ColumnConstraints halignment="LEFT" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+                <children>
+                    <Label text="Nombre:" GridPane.rowIndex="0" />
+                    <Label fx:id="labelNombre" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                    <Label text="Apellido:" GridPane.rowIndex="1" />
+                    <Label fx:id="labelApellido" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                    <Label text="Correo:" GridPane.rowIndex="2" />
+                    <Label fx:id="labelCorreo" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+                    <Label text="Tipo:" GridPane.rowIndex="3" />
+                    <Label fx:id="labelTipoUsuario" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+                </children>
+            </GridPane>
+
+            <!-- Botones -->
+            <HBox spacing="10">
+                <Button fx:id="btnEliminar" text="Eliminar Usuario"
+                        onAction="#eliminarUsuario"
+                        style="-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 6; -fx-pref-width: 120;" />
+            </HBox>
+
+            <!-- Alerta -->
+            <Label fx:id="mensajeAlerta" text=""
+                   style="-fx-text-fill: #E74C3C; -fx-font-size: 12px;" />
+
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS" />
+    </VBox>
+</AnchorPane>

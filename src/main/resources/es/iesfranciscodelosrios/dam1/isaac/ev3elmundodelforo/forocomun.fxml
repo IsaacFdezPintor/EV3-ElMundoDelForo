@@ -1,0 +1,91 @@
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.Region?>
+<AnchorPane xmlns="http://javafx.com/javafx/12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="rootPane"
+            fx:controller="es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.controllers.ForoControllerComun"
+            prefWidth="1200" prefHeight="800"> <!-- Aumenta el tamaño del contenedor principal -->
+
+    <!-- Cabecera -->
+    <HBox spacing="20" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <style>
+            -fx-background-color: #34495E;
+        </style>
+        <children>
+            <Label text="Mundo del Foro" style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" /> <!-- Aumenta el tamaño del texto -->
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnMiInformacion" text="Mi Info" onAction="#miInformacion"
+                    style="-fx-background-color: #1ABC9C; -fx-text-fill: white; -fx-font-size: 18px;" /> <!-- Aumenta el tamaño del texto -->
+            <Button fx:id="btnCerrarSesion" text="Salir" onAction="#cerrarSesion"
+                    style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-size: 18px;" /> <!-- Aumenta el tamaño del texto -->
+        </children>
+    </HBox>
+
+    <!-- Contenido principal -->
+    <HBox spacing="20" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <children>
+            <!-- Menú lateral con lista de foros -->
+            <VBox spacing="20" prefWidth="300"> <!-- Aumenta el ancho del menú lateral -->
+                <style>
+                    -fx-background-color: #ECEFF1;
+                    -fx-padding: 20;
+                    -fx-border-color: #B0BEC5;
+                    -fx-border-width: 2;
+                    -fx-border-radius: 8;
+                </style>
+                <children>
+                    <Label text="Foros Disponibles" style="-fx-font-weight: bold; -fx-font-size: 20px;" /> <!-- Aumenta el tamaño del texto -->
+                    <ListView fx:id="listaForos" onMouseClicked="#mostrarForoSeleccionado"
+                              style="-fx-background-color: white; -fx-border-color: #B0BEC5; -fx-border-radius: 8;" />
+                </children>
+            </VBox>
+
+            <!-- Área central -->
+            <VBox spacing="20" HBox.hgrow="ALWAYS">
+                <children>
+                    <!-- Detalles y Comentarios -->
+                    <VBox spacing="20">
+                        <style>
+                            -fx-background-color: white;
+                            -fx-padding: 20;
+                            -fx-border-color: #CFD8DC;
+                            -fx-border-radius: 8;
+                        </style>
+                        <children>
+                            <Label text="Comentarios" style="-fx-font-weight: bold; -fx-font-size: 20px;" /> <!-- Aumenta el tamaño del texto -->
+                            <ListView fx:id="listaComentarios"
+                                      style="-fx-background-color: #F9FAFB; -fx-border-color: #B0BEC5; -fx-border-radius: 8;" />
+
+                            <VBox spacing="15">
+                                <children>
+                                    <Label fx:id="labelDescripcionForo" text="Descripción:" wrapText="true" style="-fx-font-size: 18px;" /> <!-- Aumenta el tamaño del texto -->
+                                    <Label fx:id="labelCreadorForo" text="Creador:" style="-fx-font-size: 18px;" /> <!-- Aumenta el tamaño del texto -->
+                                </children>
+                            </VBox>
+
+                            <Label fx:id="mensajeAlerta" style="-fx-text-fill: red; -fx-font-size: 18px;" /> <!-- Aumenta el tamaño del texto -->
+
+                            <TextArea fx:id="campoComentario" promptText="Escribe tu comentario..." wrapText="true"
+                                      style="-fx-background-color: #F9FAFB; -fx-border-color: #B0BEC5; -fx-border-radius: 8; -fx-font-size: 18px;" /> <!-- Aumenta el tamaño del texto -->
+                            <Button fx:id="btnPublicarComentario" text="Publicar" onAction="#PublicarComentario"
+                                    style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-size: 18px;" /> <!-- Aumenta el tamaño del texto -->
+                        </children>
+                    </VBox>
+                </children>
+            </VBox>
+        </children>
+    </HBox>
+</AnchorPane>

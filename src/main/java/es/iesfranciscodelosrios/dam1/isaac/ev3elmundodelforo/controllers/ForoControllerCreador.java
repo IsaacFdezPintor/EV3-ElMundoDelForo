@@ -141,7 +141,7 @@ public class ForoControllerCreador {
         if (foroSeleccionado != null) {
             Usuario usuarioActual = SesionUsuario.getUsuario();
 
-            if (usuarioActual != null && foroSeleccionado.getId_creador() == usuarioActual.getId_Usuario()) {
+            if (usuarioActual != null && foroSeleccionado.getCreador().getId_Usuario() == usuarioActual.getId_Usuario()) {
                 DAOForo daoForo = new DAOForo();
                 boolean eliminado = daoForo.delete(foroSeleccionado);
 

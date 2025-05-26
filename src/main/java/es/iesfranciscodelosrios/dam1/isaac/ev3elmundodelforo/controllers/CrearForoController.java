@@ -58,10 +58,10 @@ public class CrearForoController {
         Foro nuevoForo = new Foro();
         nuevoForo.setTitulo(titulo);
         nuevoForo.setDescripcion(descripcion);
-        nuevoForo.setId_creador(usuarioActual.getId_Usuario());
+        nuevoForo.setCreador(creador);
 
         DAOForo daoForo = new DAOForo();
-        daoForo.insert(nuevoForo , usuarioActual);
+        daoForo.insert(nuevoForo);
 
 
         Stage stage = (Stage) btnCrearForo.getScene().getWindow();

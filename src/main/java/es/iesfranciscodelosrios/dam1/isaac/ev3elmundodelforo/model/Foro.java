@@ -2,6 +2,8 @@ package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase que representa un foro en la aplicación.
@@ -14,20 +16,23 @@ public class Foro {
     private String titulo;
     private String descripcion;
     private Date fecha_creacion = Date.valueOf(LocalDate.now());
-    private int id_creador;
+    private UsuarioCreador creador;
+    private List<Texto> textos;
     /**
      * Constructor principal de la clase Foro.
      *
      * @param titulo        Título del foro.
      * @param descripcion   Descripción del foro.
      * @param fecha_creacion Fecha de creación del foro.
-     * @param id_creador    Identificador del creador del foro.
+     * @param creador    Usuario  creador del foro.
      */
-    public Foro(String titulo, String descripcion, Date fecha_creacion, int id_creador) {
+    public Foro(String titulo, String descripcion, Date fecha_creacion, UsuarioCreador creador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha_creacion = fecha_creacion;
-        this.id_creador = id_creador;
+        this.creador = creador;
+        this.textos = new ArrayList<>();
+
     }
 
     /**
@@ -37,14 +42,16 @@ public class Foro {
      * @param titulo        Título del foro.
      * @param descripcion   Descripción del foro.
      * @param fecha_creacion Fecha de creación del foro.
-     * @param id_creador    Identificador del creador del foro.
+     * @param creador    Usuario creador del foro.
      */
-    public Foro(int id_foro, String titulo, String descripcion, Date fecha_creacion, int id_creador) {
+    public Foro(int id_foro, String titulo, String descripcion, Date fecha_creacion, UsuarioCreador creador) {
         this.id_foro = id_foro;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha_creacion = fecha_creacion;
-        this.id_creador = id_creador;
+        this.creador = creador;
+        this.textos = new ArrayList<>();
+
     }
 
     /**
@@ -127,23 +134,6 @@ public class Foro {
         this.fecha_creacion = fecha_creacion;
     }
 
-    /**
-     * Obtiene el id del creador del foro.
-     *
-     * @return El id del creador del foro.
-     */
-    public int getId_creador() {
-        return id_creador;
-    }
-
-    /**
-     * Establece el id del creador del foro.
-     *
-     * @param id_creador El id del creador a establecer.
-     */
-    public void setId_creador(int id_creador) {
-        this.id_creador = id_creador;
-    }
 
     /**
      * Método toString que devuelve una representación en cadena del foro.
@@ -154,5 +144,29 @@ public class Foro {
     @Override
     public String toString() {
         return titulo;
+    }
+
+    public void agregarTexto(Texto texto) {
+        textos.add(texto);
+    }
+
+    public List<Texto> getTextos() {
+        return textos;
+    }
+    /**
+     * Obtiene el creador del foro.
+     *
+     * @return El usuario creador del foro.
+     */
+    public UsuarioCreador getCreador() {
+        return creador;
+    }
+    /**
+     * Establece el creador del foro.
+     *
+     * @param creador El usuario creador a establecer.
+     */
+    public void setCreador(UsuarioCreador creador) {
+        this.creador = creador;
     }
 }

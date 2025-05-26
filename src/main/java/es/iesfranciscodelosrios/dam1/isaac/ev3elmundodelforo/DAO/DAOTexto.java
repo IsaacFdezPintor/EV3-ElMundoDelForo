@@ -4,6 +4,7 @@ import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.baseDatos.Connectio
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Texto;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioComun;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -67,16 +68,27 @@ public class DAOTexto {
                     Texto texto = new Texto();
                     texto.setId_contenido(rs.getInt("id_contenido"));
                     texto.setFecha(rs.getDate("fecha"));
-                    texto.setId_usuario(rs.getInt("id_usuario"));
-                    texto.setId_foro(rs.getInt("id_foro"));
+
+                    // Instanciar y asignar autor
+                    Usuario autor = new UsuarioComun();
+                    autor.setId_Usuario(rs.getInt("id_usuario"));
+                    texto.setAutor(autor);
+
+                    // Instanciar y asignar foro
+                    Foro foro = new Foro();
+                    foro.setId_foro(rs.getInt("id_foro"));
+                    texto.setForo(foro);
+
                     texto.setTexto(rs.getString("texto"));
                     textos.add(texto);
                 }
+
             }
         }
 
         return textos;
     }
+
 
     /**
      * Elimina un texto de la base de datos.
@@ -102,4 +114,6 @@ public class DAOTexto {
 
         return deleted;
     }
+
+
 }

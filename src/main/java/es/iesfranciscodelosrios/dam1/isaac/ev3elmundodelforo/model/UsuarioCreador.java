@@ -1,6 +1,7 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * La clase UsuarioCreador extiende la clase Usuario.
@@ -9,6 +10,8 @@ import java.sql.Date;
 public class UsuarioCreador extends Usuario {
 
     private int Num_ForosCreados;
+    private List<Foro> foros;
+
 
     /**
      * Constructor vacío de la clase UsuarioCreador.
@@ -68,5 +71,9 @@ public class UsuarioCreador extends Usuario {
         return "UsuarioCreador{" +
                 "Num_ForosCreados=" + Num_ForosCreados +
                 '}';
+    }
+
+    public List<Foro> getForos() {
+        return foros;
     }
 }

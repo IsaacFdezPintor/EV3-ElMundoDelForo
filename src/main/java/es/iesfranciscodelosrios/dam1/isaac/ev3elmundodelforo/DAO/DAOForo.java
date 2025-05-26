@@ -23,28 +23,27 @@ public class DAOForo {
      * Inserta un nuevo foro en la base de datos.
      *
      * @param foro    Foro a insertar.
-     * @param creador Usuario que crea el foro.
      * @return Foro insertado con su ID generado.
      * @throws SQLException si ocurre un error en la base de datos.
      */
-    public Foro insert(Foro foro, Usuario creador) throws SQLException {
-        if (foro != null && creador != null) {
+    public Foro insert(Foro foro) throws SQLException {
+        if (foro != null && foro.getCreador() != null) {
             try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(INSERT_FORO, Statement.RETURN_GENERATED_KEYS)) {
                 pst.setString(1, foro.getTitulo());
                 pst.setString(2, foro.getDescripcion());
                 pst.setDate(3, foro.getFecha_creacion());
-                pst.setInt(4, creador.getId_Usuario());
+                pst.setInt(4, foro.getCreador().getId_Usuario());
 
                 pst.executeUpdate();
                 ResultSet rs = pst.getGeneratedKeys();
                 if (rs.next()) {
                     foro.setId_foro(rs.getInt(1));
-                    foro.setId_creador(creador.getId_Usuario());
                 }
             }
         }
         return foro;
     }
+
 
     /**
      * Actualiza un foro existente si el usuario es su creador.
@@ -57,7 +56,7 @@ public class DAOForo {
      */
     public boolean update(Foro foroNuevo, Foro foroViejo, Usuario creador) throws SQLException {
         boolean actualizado = false;
-        if (foroNuevo != null && foroViejo != null && creador != null && foroViejo.getId_creador() == creador.getId_Usuario()) {
+        if (foroNuevo != null && foroViejo != null && creador != null && foroViejo.getCreador().getId_Usuario() == creador.getId_Usuario()) {
             try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(UPDATE_FORO)) {
                 pst.setString(1, foroNuevo.getTitulo());
                 pst.setString(2, foroNuevo.getDescripcion());
@@ -83,7 +82,7 @@ public class DAOForo {
         if (foro != null) {
             try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(DELETE_FORO)) {
                 pst.setInt(1, foro.getId_foro());
-                pst.setInt(2, foro.getId_creador());
+                pst.setInt(2, foro.getCreador().getId_Usuario ());
 
                 eliminado = pst.executeUpdate() > 0;
             }
@@ -103,12 +102,16 @@ public class DAOForo {
              ResultSet rs = stmt.executeQuery(FIND_ALL)) {
 
             while (rs.next()) {
+                int idCreador = rs.getInt("id_creador");
+
+                UsuarioCreador creador = new DAOUsuarioCreador().findById(idCreador); // Necesita existir
                 Foro foro = new Foro(
                         rs.getInt("id_foro"),
                         rs.getString("titulo"),
                         rs.getString("descripcion"),
                         rs.getDate("fecha_creacion"),
-                        rs.getInt("id_creador"));
+                        creador);
+
                 foros.add(foro);
             }
         } catch (SQLException e) {
@@ -116,6 +119,7 @@ public class DAOForo {
         }
         return foros;
     }
+
 
     /**
      * Recupera los foros creados por un usuario específico.
@@ -130,13 +134,16 @@ public class DAOForo {
 
             pst.setInt(1, idCreador);
             try (ResultSet rs = pst.executeQuery()) {
+                UsuarioCreador creador = new DAOUsuarioCreador().findById(idCreador);
+
                 while (rs.next()) {
                     Foro foro = new Foro(
                             rs.getInt("id_foro"),
                             rs.getString("titulo"),
                             rs.getString("descripcion"),
                             rs.getDate("fecha_creacion"),
-                            rs.getInt("id_creador"));
+                            creador);
+
                     foros.add(foro);
                 }
             }
@@ -145,6 +152,7 @@ public class DAOForo {
         }
         return foros;
     }
+
 
     /**
      * Recupera el usuario creador de un foro dado.

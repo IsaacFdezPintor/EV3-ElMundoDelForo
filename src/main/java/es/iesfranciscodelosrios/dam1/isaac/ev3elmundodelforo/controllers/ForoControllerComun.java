@@ -113,8 +113,8 @@ public class ForoControllerComun {
 
         Texto nuevoComentario = new Texto();
         nuevoComentario.setTexto(comentarioTexto);
-        nuevoComentario.setId_foro(foroSeleccionado.getId_foro());
-        nuevoComentario.setId_usuario(usuarioActual.getId_Usuario());
+        nuevoComentario.setForo(foroSeleccionado);
+        nuevoComentario.setAutor(usuarioActual);
 
         DAOTexto daoTexto = new DAOTexto();
         boolean comentarioPublicado = daoTexto.insert(usuarioActual, foroSeleccionado, nuevoComentario);

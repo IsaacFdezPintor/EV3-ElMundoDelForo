@@ -1,5 +1,7 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model;
 
+import java.util.List;
+
 // La clase UsuarioComun extiende la clase Usuario.
 // Representa un usuario de tipo "COMUN" que tiene un número de comentarios y un nivel de participación.
 public class UsuarioComun extends Usuario {
@@ -7,6 +9,8 @@ public class UsuarioComun extends Usuario {
     private static int num_Comentarios = 0;
 
     private Participacion nivel_Participacion;
+
+    private List<Texto> textos;
 
     /**
      * Constructor vacío de la clase UsuarioComun.
@@ -80,5 +84,9 @@ public class UsuarioComun extends Usuario {
         return "UsuarioComun{" +
                 "Contenido=" + getNombre() +
                 '}';
+    }
+
+    public List<Texto> getTextos() {
+        return textos;
     }
 }

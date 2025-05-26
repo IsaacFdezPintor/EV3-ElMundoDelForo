@@ -1,6 +1,7 @@
 package es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.DAO;
 
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.baseDatos.ConnectionBD;
+import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Foro;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.Usuario;
 import es.iesfranciscodelosrios.dam1.isaac.ev3elmundodelforo.model.UsuarioCreador;
 
@@ -22,6 +23,7 @@ public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
     private final static String SQL_FIND_BY_EMAIL_BY_PASSWORD = "SELECT * FROM creador WHERE email = ? AND password = ? AND tipo_usuario = 'CREADOR'";
     private final static String EXISTS_BY_EMAIL = "SELECT COUNT(*) FROM creador WHERE email = ?";
     private final static String UPDATE_NUM_FOROS = "UPDATE creador SET num_foros_creados = ? WHERE id_usuario = ?";
+    private final static String FIND_USUARIO_BY_ID = "SELECT * FROM creador WHERE id_usuario = ? AND tipo_usuario = 'CREADOR'";
 
     /**
      * Inserta un nuevo usuario creador en la base de datos.
@@ -224,4 +226,24 @@ public class DAOUsuarioCreador implements IGenericDAO<UsuarioCreador> {
         }
         return update;
     }
+
+    public UsuarioCreador findById(int id) throws SQLException {
+        UsuarioCreador usuario = null;
+        try (PreparedStatement pst = ConnectionBD.getConnection().prepareStatement(FIND_USUARIO_BY_ID)) {
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                usuario = new UsuarioCreador();
+                usuario.setId_Usuario(rs.getInt("id_usuario"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setApellidos(rs.getString("apellidos"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setPassword(rs.getString("password"));
+                usuario.setFechaDeRegistro(rs.getDate("fecha_registro"));
+            }
+        }
+        return usuario;
+    }
+
+
 }

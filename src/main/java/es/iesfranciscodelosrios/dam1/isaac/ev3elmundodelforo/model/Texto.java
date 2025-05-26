@@ -11,8 +11,8 @@ public class Texto {
 
     private int id_contenido;
     private Date fecha = Date.valueOf(LocalDate.now());
-    private int id_usuario;
-    private int id_foro;
+    private Usuario autor;
+    private Foro foro;
     private String texto;
 
     /**
@@ -21,14 +21,14 @@ public class Texto {
      *
      * @param id_contenido El identificador único del contenido.
      * @param fecha La fecha en la que se creó el contenido.
-     * @param id_usuario El id del usuario que publicó el contenido.
-     * @param id_foro El id del foro donde se publicó el contenido.
+     * @param autor El id del usuario que publicó el contenido.
+     * @param foro El id del foro donde se publicó el contenido.
      */
-    public Texto(int id_contenido, Date fecha, int id_usuario, int id_foro) {
+    public Texto(int id_contenido, Date fecha, Usuario autor, Foro foro) {
         this.id_contenido = id_contenido;
         this.fecha = fecha;
-        this.id_usuario = id_usuario;
-        this.id_foro = id_foro;
+        this.autor = autor;
+        this.foro = foro;
     }
 
     /**
@@ -74,42 +74,6 @@ public class Texto {
     }
 
     /**
-     * Obtiene el id del usuario que publicó el contenido.
-     *
-     * @return El id del usuario que publicó el contenido.
-     */
-    public int getId_usuario() {
-        return id_usuario;
-    }
-
-    /**
-     * Establece el id del usuario que publicó el contenido.
-     *
-     * @param id_usuario El id del usuario que publicó el contenido.
-     */
-    public void setId_usuario(int id_usuario) {
-        this.id_usuario = id_usuario;
-    }
-
-    /**
-     * Obtiene el id del foro en el que se publicó el contenido.
-     *
-     * @return El id del foro donde se publicó el contenido.
-     */
-    public int getId_foro() {
-        return id_foro;
-    }
-
-    /**
-     * Establece el id del foro en el que se publicó el contenido.
-     *
-     * @param id_foro El id del foro donde se publicó el contenido.
-     */
-    public void setId_foro(int id_foro) {
-        this.id_foro = id_foro;
-    }
-
-    /**
      * Obtiene el texto (contenido) del mensaje.
      *
      * @return El texto del mensaje o contenido.
@@ -126,6 +90,39 @@ public class Texto {
     public void setTexto(String texto) {
         this.texto = texto;
     }
+    /**
+     * Obtiene el autor del mensaje.
+     *
+     * @return El usuario que publicó el mensaje.
+     */
+    public Usuario getAutor() {
+        return autor;
+    }
+    /**
+     * Establece el autor del mensaje.
+     *
+     * @param autor El usuario que publicó el mensaje a establecer.
+     */
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
+    }
+    /**
+     * Obtiene el foro al que pertenece el mensaje.
+     *
+     * @return El foro donde se publicó el mensaje.
+     */
+    public Foro getForo() {
+        return foro;
+    }
+    /**
+     * Establece el foro al que pertenece el mensaje.
+     *
+     * @param foro El foro donde se publicará el mensaje a establecer.
+     */
+    public void setForo(Foro foro) {
+        this.foro = foro;
+    }
+
 
     /**
      * Sobrescribe el método toString para representar el objeto Texto como una cadena.
